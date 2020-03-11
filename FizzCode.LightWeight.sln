@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{9BB9529D-3AA4-406E-8104-FE6DB4293000}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Global\AssemblyInfo.Global.cs = Global\AssemblyInfo.Global.cs
+		FizzCode.ruleset = FizzCode.ruleset
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.RelationalModel", "LightWeight.RelationalModel\LightWeight.RelationalModel.csproj", "{B9FFD3C8-79DF-4655-9A34-4EF69E459DC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.Collections", "LightWeight.Collections\LightWeight.Collections.csproj", "{BC65CFAD-F637-4453-AC3C-1A0F0F6B1179}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1F80E5F6-4CD6-4742-B944-802BCBBD200B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.Collections.Tests", "Tests\LightWeight.Collections.Tests\LightWeight.Collections.Tests.csproj", "{3C2996F0-025C-4D31-8600-43D3A5ECBE31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.RelationalModel.Tests", "Tests\LightWeight.RelationalModel.Tests\LightWeight.RelationalModel.Tests.csproj", "{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9FFD3C8-79DF-4655-9A34-4EF69E459DC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9FFD3C8-79DF-4655-9A34-4EF69E459DC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9FFD3C8-79DF-4655-9A34-4EF69E459DC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9FFD3C8-79DF-4655-9A34-4EF69E459DC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC65CFAD-F637-4453-AC3C-1A0F0F6B1179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC65CFAD-F637-4453-AC3C-1A0F0F6B1179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC65CFAD-F637-4453-AC3C-1A0F0F6B1179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC65CFAD-F637-4453-AC3C-1A0F0F6B1179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C2996F0-025C-4D31-8600-43D3A5ECBE31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C2996F0-025C-4D31-8600-43D3A5ECBE31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C2996F0-025C-4D31-8600-43D3A5ECBE31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C2996F0-025C-4D31-8600-43D3A5ECBE31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3C2996F0-025C-4D31-8600-43D3A5ECBE31} = {1F80E5F6-4CD6-4742-B944-802BCBBD200B}
+		{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4} = {1F80E5F6-4CD6-4742-B944-802BCBBD200B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B1A4546-5839-4F14-8E4D-8404CA122935}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal

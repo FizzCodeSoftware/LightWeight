@@ -1,0 +1,19 @@
+﻿namespace FizzCode.LightWeight.RelationalModel
+{
+    using System;
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = true)]
+    public class FlagAttribute : Attribute
+    {
+        public string Name { get; }
+        public bool Value { get; }
+        public bool Exclusive { get; }
+
+        public FlagAttribute(string name, bool value, bool exclusive)
+        {
+            Name = name;
+            Value = value;
+            Exclusive = exclusive;
+        }
+    }
+}
