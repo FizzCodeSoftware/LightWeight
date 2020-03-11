@@ -19,4 +19,4 @@
     <ProjectReference Include="..\..\LightWeight.RelationalModel\LightWeight.RelationalModel.csproj" />
   </ItemGroup>
 
-</Project>
+</Project> 
