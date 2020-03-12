@@ -12,7 +12,7 @@
         public string DefaultSchema { get; }
 
         public IReadOnlyList<RelationalTable> Tables => _tables.GetItemsAsReadonly();
-        public RelationalTable this[string name] => _tables[name];
+        public RelationalTable this[string tableSchemaAndName] => _tables[tableSchemaAndName];
 
         private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalTable> _tables = new OrderedCaseInsensitiveStringKeyDictionary<RelationalTable>();
         private readonly CaseInsensitiveStringKeyDictionary<List<RelationalTable>> _tablesByFlags = new CaseInsensitiveStringKeyDictionary<List<RelationalTable>>();
@@ -78,7 +78,7 @@
                 var fkAttributes = t.Item2;
                 foreach (var fkAttribute in fkAttributes)
                 {
-                    var tableProperty = GetType().GetProperties().FirstOrDefault(x => x.PropertyType == fkAttribute.TargetTableType);
+                    var tableProperty = Array.Find(GetType().GetProperties(), x => x.PropertyType == fkAttribute.TargetTableType);
                     var schemaAttribute = tableProperty.GetCustomAttribute<SchemaAttribute>();
 
                     var schema = schemaAttribute?.Schema ?? DefaultSchema;

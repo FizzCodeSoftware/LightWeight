@@ -1,9 +1,11 @@
 ﻿namespace FizzCode.LightWeight.RelationalModel
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using FizzCode.LightWeight.Collections;
 
+    [DebuggerDisplay("{SchemaAndName}")]
     public class RelationalTable
     {
         public RelationalModel Model { get; private set; }
@@ -11,7 +13,7 @@
         public string Schema { get; private set; }
         public string SchemaAndName { get; private set; }
 
-        public RelationalColumn this[string name] => _columns[name];
+        public RelationalColumn this[string columnName] => _columns[columnName];
 
         public IReadOnlyList<RelationalColumn> Columns => _columns.GetItemsAsReadonly();
         public IReadOnlyList<RelationalColumn> PrimaryKeyColumns => _primaryKeyColumns.GetItemsAsReadonly();

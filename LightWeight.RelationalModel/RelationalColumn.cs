@@ -1,7 +1,9 @@
 ﻿namespace FizzCode.LightWeight.RelationalModel
 {
+    using System.Diagnostics;
     using FizzCode.LightWeight.Collections;
 
+    [DebuggerDisplay("{TableQualifiedName}")]
     public class RelationalColumn
     {
         public RelationalTable Table { get; }

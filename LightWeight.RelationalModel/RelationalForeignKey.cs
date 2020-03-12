@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
 
+    [DebuggerDisplay("{TargetTable}")]
     public class RelationalForeignKey
     {
         public RelationalTable SourceTable { get; }
