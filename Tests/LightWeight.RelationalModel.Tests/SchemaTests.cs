@@ -16,7 +16,42 @@
             people.AddColumn("name", false);
             var peopleFavoritePetId = people.AddColumn("favoritePetId", false);
 
-            var pet = model.AddTable("pet");
+            var pet = model.AddTable("pet", "secondary");
+            var petId = pet.AddColumn("id", true);
+            pet.AddColumn("name", false);
+            var petOwnerId = pet.AddColumn("ownerPeopleId", false);
+
+            people.AddForeignKeyTo(pet)
+                .AddColumnPair(peopleFavoritePetId, petId);
+
+            pet.AddForeignKeyTo(people)
+                .AddColumnPair(petOwnerId, peopleId);
+
+            Assert.AreEqual(2, model.Tables.Count);
+            Assert.AreEqual(3, model["dbo.PEOPLE"].Columns.Count);
+            Assert.AreEqual(3, model["secondary.PET"].Columns.Count);
+            Assert.AreEqual(1, model["dbo.People"].ForeignKeys.Count);
+            Assert.AreEqual(1, model["secondary.Pet"].ForeignKeys.Count);
+            Assert.IsTrue(pet.ForeignKeys[0].TargetTable == people);
+            Assert.IsTrue(people.ForeignKeys[0].ColumnPairs[0].SourceColumn == peopleFavoritePetId);
+            Assert.IsTrue(people.ForeignKeys[0].ColumnPairs[0].TargetColumn == petId);
+            Assert.IsTrue(pet.ForeignKeys[0].ColumnPairs[0].SourceColumn == petOwnerId);
+            Assert.IsTrue(pet.ForeignKeys[0].ColumnPairs[0].TargetColumn == peopleId);
+            Assert.AreEqual(1, model["dbo.PEOPLE"].PrimaryKeyColumns.Count);
+            Assert.AreEqual(1, model["secondary.peT"].PrimaryKeyColumns.Count);
+        }
+
+        [TestMethod]
+        public void KeysNoSchema()
+        {
+            var model = new RelationalModel();
+
+            var people = model.AddTable("people");
+            var peopleId = people.AddColumn("id", true);
+            people.AddColumn("name", false);
+            var peopleFavoritePetId = people.AddColumn("favoritePetId", false);
+
+            var pet = model.AddTable("pet", "secondary");
             var petId = pet.AddColumn("id", true);
             pet.AddColumn("name", false);
             var petOwnerId = pet.AddColumn("ownerPeopleId", false);
@@ -29,16 +64,16 @@
 
             Assert.AreEqual(2, model.Tables.Count);
             Assert.AreEqual(3, model["PEOPLE"].Columns.Count);
-            Assert.AreEqual(3, model["PET"].Columns.Count);
+            Assert.AreEqual(3, model["secondary.PET"].Columns.Count);
             Assert.AreEqual(1, model["People"].ForeignKeys.Count);
-            Assert.AreEqual(1, model["Pet"].ForeignKeys.Count);
-            Assert.IsTrue(model[pet.Name].ForeignKeys[0].TargetTable == people);
-            Assert.IsTrue(model[people.Name].ForeignKeys[0].ColumnPairs[0].SourceColumn == peopleFavoritePetId);
-            Assert.IsTrue(model[people.Name].ForeignKeys[0].ColumnPairs[0].TargetColumn == petId);
-            Assert.IsTrue(model[pet.Name].ForeignKeys[0].ColumnPairs[0].SourceColumn == petOwnerId);
-            Assert.IsTrue(model[pet.Name].ForeignKeys[0].ColumnPairs[0].TargetColumn == peopleId);
+            Assert.AreEqual(1, model["secondary.Pet"].ForeignKeys.Count);
+            Assert.IsTrue(pet.ForeignKeys[0].TargetTable == people);
+            Assert.IsTrue(people.ForeignKeys[0].ColumnPairs[0].SourceColumn == peopleFavoritePetId);
+            Assert.IsTrue(people.ForeignKeys[0].ColumnPairs[0].TargetColumn == petId);
+            Assert.IsTrue(pet.ForeignKeys[0].ColumnPairs[0].SourceColumn == petOwnerId);
+            Assert.IsTrue(pet.ForeignKeys[0].ColumnPairs[0].TargetColumn == peopleId);
             Assert.AreEqual(1, model["PEOPLE"].PrimaryKeyColumns.Count);
-            Assert.AreEqual(1, model["peT"].PrimaryKeyColumns.Count);
+            Assert.AreEqual(1, model["secondary.peT"].PrimaryKeyColumns.Count);
         }
 
         [TestMethod]

@@ -5,13 +5,13 @@
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class SingleColumnForeignKeyAttribute : Attribute
     {
-        public string TargetTableName { get; }
+        public Type TargetTableType { get; }
         public string TargetColumnName { get; }
 
-        public SingleColumnForeignKeyAttribute(string targetTableName, string targetColumn)
+        public SingleColumnForeignKeyAttribute(Type targetTableType, string targetColumnName)
         {
-            TargetTableName = targetTableName;
-            TargetColumnName = targetColumn;
+            TargetTableType = targetTableType;
+            TargetColumnName = targetColumnName;
         }
     }
 }

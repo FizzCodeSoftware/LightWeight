@@ -17,7 +17,7 @@
         private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalTable> _tables = new OrderedCaseInsensitiveStringKeyDictionary<RelationalTable>();
         private readonly CaseInsensitiveStringKeyDictionary<List<RelationalTable>> _tablesByFlags = new CaseInsensitiveStringKeyDictionary<List<RelationalTable>>();
 
-        public RelationalModel(string defaultSchemaName)
+        public RelationalModel(string defaultSchemaName = null)
         {
             DefaultSchema = defaultSchemaName;
         }
@@ -34,7 +34,7 @@
                     var schemaAttribute = tableProperty.GetCustomAttribute<SchemaAttribute>();
 
                     table.Initialize(this, tableProperty.Name, schemaAttribute?.Schema);
-                    _tables.Add(table.Name, table);
+                    _tables.Add(table.SchemaAndName, table);
                     tableProperty.SetValue(this, table);
 
                     foreach (var columnProperty in tableProperty.PropertyType.GetProperties())
@@ -78,8 +78,13 @@
                 var fkAttributes = t.Item2;
                 foreach (var fkAttribute in fkAttributes)
                 {
-                    var targetTableName = fkAttribute.TargetTableName;
-                    var targetTable = _tables[targetTableName];
+                    var tableProperty = GetType().GetProperties().FirstOrDefault(x => x.PropertyType == fkAttribute.TargetTableType);
+                    var schemaAttribute = tableProperty.GetCustomAttribute<SchemaAttribute>();
+
+                    var schema = schemaAttribute?.Schema ?? DefaultSchema;
+
+                    var targetSchemaAndName = (schema != null ? schema + "." : "") + tableProperty.Name;
+                    var targetTable = _tables[targetSchemaAndName];
                     var targetColumn = targetTable[fkAttribute.TargetColumnName];
 
                     sourceColumn.Table.AddForeignKeyTo(targetTable)
@@ -92,7 +97,7 @@
         {
             var table = new RelationalTable();
             table.Initialize(this, name, customSchema);
-            _tables.Add(table.Name, table);
+            _tables.Add(table.SchemaAndName, table);
             return table;
         }
 
