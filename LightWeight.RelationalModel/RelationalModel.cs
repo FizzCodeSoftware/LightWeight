@@ -9,64 +9,76 @@
 
     public class RelationalModel
     {
-        public string DefaultSchema { get; }
+        public RelationalSchema DefaultSchema { get; }
 
-        public IReadOnlyList<RelationalTable> Tables => _tables.GetItemsAsReadonly();
-        public RelationalTable this[string tableSchemaAndName] => _tables[tableSchemaAndName];
+        public IReadOnlyList<RelationalSchema> Schemas => _schemas.GetItemsAsReadonly();
+        public RelationalSchema this[string schemaName] => _schemas[schemaName];
 
-        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalTable> _tables = new OrderedCaseInsensitiveStringKeyDictionary<RelationalTable>();
+        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalSchema> _schemas = new OrderedCaseInsensitiveStringKeyDictionary<RelationalSchema>();
         private readonly CaseInsensitiveStringKeyDictionary<List<RelationalTable>> _tablesByFlags = new CaseInsensitiveStringKeyDictionary<List<RelationalTable>>();
 
         public RelationalModel(string defaultSchemaName = null)
         {
-            DefaultSchema = defaultSchemaName;
+            if (defaultSchemaName != null)
+            {
+                DefaultSchema = AddSchema(defaultSchemaName);
+            }
         }
 
         protected void BuildFromProperties()
         {
             var allSingleColumnFkAttributes = new List<Tuple<RelationalColumn, List<SingleColumnForeignKeyAttribute>>>();
 
-            foreach (var tableProperty in GetType().GetProperties())
+            foreach (var schemaProperty in GetType().GetProperties())
             {
-                if (typeof(RelationalTable).IsAssignableFrom(tableProperty.PropertyType) && tableProperty.DeclaringType == GetType())
-                {
-                    var table = (RelationalTable)Activator.CreateInstance(tableProperty.PropertyType);
-                    var schemaAttribute = tableProperty.GetCustomAttribute<SchemaAttribute>();
+                if (!typeof(RelationalSchema).IsAssignableFrom(schemaProperty.PropertyType) || schemaProperty.DeclaringType != GetType())
+                    continue;
 
-                    table.Initialize(this, tableProperty.Name, schemaAttribute?.Schema);
-                    _tables.Add(table.SchemaAndName, table);
-                    tableProperty.SetValue(this, table);
+                var schema = (RelationalSchema)Activator.CreateInstance(schemaProperty.PropertyType);
+                schema.Initialize(this, schemaProperty.Name);
+                _schemas.Add(schema.Name, schema);
+
+                schemaProperty.SetValue(this, schema);
+
+                foreach (var tableProperty in schemaProperty.PropertyType.GetProperties())
+                {
+                    if (!typeof(RelationalTable).IsAssignableFrom(tableProperty.PropertyType) || tableProperty.DeclaringType != schemaProperty.PropertyType)
+                        continue;
+
+                    var table = (RelationalTable)Activator.CreateInstance(tableProperty.PropertyType);
+                    schema.AddTable(table, tableProperty.Name);
+                    tableProperty.SetValue(schema, table);
 
                     foreach (var columnProperty in tableProperty.PropertyType.GetProperties())
                     {
-                        if (typeof(RelationalColumn).IsAssignableFrom(columnProperty.PropertyType) && columnProperty.DeclaringType == tableProperty.PropertyType)
+                        if (!typeof(RelationalColumn).IsAssignableFrom(columnProperty.PropertyType) || columnProperty.DeclaringType != tableProperty.PropertyType)
+                            continue;
+
+                        var primaryKeyAttribute = columnProperty.GetCustomAttribute<PrimaryKeyAttribute>();
+                        var column = table.AddColumn(columnProperty.Name, primaryKeyAttribute != null);
+                        columnProperty.SetValue(table, column);
+
+                        var identityAttribute = columnProperty.GetCustomAttribute<IdentityAttribute>();
+                        column.SetIdentity(identityAttribute != null);
+
+                        var fkAttributes = columnProperty.GetCustomAttributes<SingleColumnForeignKeyAttribute>().ToList();
+                        if (fkAttributes.Count > 0)
                         {
-                            var primaryKeyAttribute = columnProperty.GetCustomAttribute<PrimaryKeyAttribute>();
-                            var column = table.AddColumn(columnProperty.Name, primaryKeyAttribute != null);
-                            columnProperty.SetValue(table, column);
+                            allSingleColumnFkAttributes.Add(new Tuple<RelationalColumn, List<SingleColumnForeignKeyAttribute>>(column, fkAttributes));
+                        }
 
-                            var identityAttribute = columnProperty.GetCustomAttribute<IdentityAttribute>();
-                            column.SetIdentity(identityAttribute != null);
-
-                            var fkAttributes = columnProperty.GetCustomAttributes<SingleColumnForeignKeyAttribute>().ToList();
-                            if (fkAttributes.Count > 0)
+                        var flagAttributes = columnProperty.GetCustomAttributes<FlagAttribute>();
+                        foreach (var flagAttribute in flagAttributes)
+                        {
+                            if (flagAttribute.Exclusive)
                             {
-                                allSingleColumnFkAttributes.Add(new Tuple<RelationalColumn, List<SingleColumnForeignKeyAttribute>>(column, fkAttributes));
-                            }
-
-                            var flagAttributes = columnProperty.GetCustomAttributes<FlagAttribute>();
-                            foreach (var flagAttribute in flagAttributes)
-                            {
-                                if (flagAttribute.Exclusive)
+                                if (column.Table.GetColumnsWithFlag(flagAttribute.Name).Count > 0)
                                 {
-                                    if (column.Table.GetColumnsWithFlag(flagAttribute.Name).Count > 0)
-                                    {
-                                        throw new Exception(string.Format(CultureInfo.InvariantCulture, "more than 1 column uses the same exclusive flag: {0}", flagAttribute.Name));
-                                    }
+                                    throw new Exception(string.Format(CultureInfo.InvariantCulture, "more than 1 column uses the same exclusive flag: {0}", flagAttribute.Name));
                                 }
-
-                                column.SetFlag(flagAttribute.Name, flagAttribute.Value, flagAttribute.Exclusive);
                             }
+
+                            column.SetFlag(flagAttribute.Name, flagAttribute.Value, flagAttribute.Exclusive);
                         }
                     }
                 }
@@ -78,13 +90,13 @@
                 var fkAttributes = t.Item2;
                 foreach (var fkAttribute in fkAttributes)
                 {
-                    var tableProperty = Array.Find(GetType().GetProperties(), x => x.PropertyType == fkAttribute.TargetTableType);
-                    var schemaAttribute = tableProperty.GetCustomAttribute<SchemaAttribute>();
+                    var schemaProperty = Array.Find(GetType().GetProperties(), x => x.PropertyType == fkAttribute.TargetTableType.DeclaringType);
+                    var targetSchema = (RelationalSchema)schemaProperty.GetValue(this);
 
-                    var schema = schemaAttribute?.Schema ?? DefaultSchema;
+                    var tableProperty = Array.Find(schemaProperty.PropertyType.GetProperties(), x => x.PropertyType == fkAttribute.TargetTableType);
+                    var targetTableName = tableProperty.Name;
 
-                    var targetSchemaAndName = (schema != null ? schema + "." : "") + tableProperty.Name;
-                    var targetTable = _tables[targetSchemaAndName];
+                    var targetTable = targetSchema[targetTableName];
                     var targetColumn = targetTable[fkAttribute.TargetColumnName];
 
                     sourceColumn.Table.AddForeignKeyTo(targetTable)
@@ -93,12 +105,15 @@
             }
         }
 
-        public RelationalTable AddTable(string name, string customSchema = null)
+        public RelationalSchema AddSchema(string name)
         {
-            var table = new RelationalTable();
-            table.Initialize(this, name, customSchema);
-            _tables.Add(table.SchemaAndName, table);
-            return table;
+            if (_schemas[name] != null)
+                throw new ArgumentException("schema already exists in model", name);
+
+            var schema = new RelationalSchema();
+            schema.Initialize(this, name);
+            _schemas.Add(schema.Name, schema);
+            return schema;
         }
 
         internal void HandleTableFlagged(RelationalTable table, string flag, bool value)

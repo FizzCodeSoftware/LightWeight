@@ -8,9 +8,8 @@
     [DebuggerDisplay("{SchemaAndName}")]
     public class RelationalTable
     {
-        public RelationalModel Model { get; private set; }
+        public RelationalSchema Schema { get; private set; }
         public string Name { get; private set; }
-        public string Schema { get; private set; }
         public string SchemaAndName { get; private set; }
 
         public RelationalColumn this[string columnName] => _columns[columnName];
@@ -29,14 +28,13 @@
         private CaseInsensitiveStringKeyDictionary<object> _additionalData;
         private readonly List<RelationalForeignKey> _foreignKeys = new List<RelationalForeignKey>();
 
-        internal void Initialize(RelationalModel model, string name, string customSchema)
+        internal void Initialize(RelationalSchema schema, string name)
         {
-            Model = model;
+            Schema = schema;
             Name = name;
-            Schema = customSchema ?? model.DefaultSchema;
 
-            SchemaAndName = Schema != null
-                ? Schema + "." + name
+            SchemaAndName = Schema.Name != null
+                ? Schema.Name + "." + name
                 : name;
         }
 
@@ -91,12 +89,12 @@
                 if (!_flags[flag])
                 {
                     _flags[flag] = true;
-                    Model.HandleTableFlagged(this, flag, true);
+                    Schema.Model.HandleTableFlagged(this, flag, true);
                 }
 
                 if (exclusive)
                 {
-                    foreach (var t in Model.GetTablesWithFlag(flag))
+                    foreach (var t in Schema.Model.GetTablesWithFlag(flag))
                     {
                         if (t != this)
                             t.SetFlag(flag, false, false);
@@ -108,7 +106,7 @@
                 if (_flags[flag])
                 {
                     _flags.Remove(flag);
-                    Model.HandleTableFlagged(this, flag, false);
+                    Schema.Model.HandleTableFlagged(this, flag, false);
                 }
 
                 if (_flags.Count == 0)

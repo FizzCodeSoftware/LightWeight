@@ -9,54 +9,66 @@
     {
         public class TestModel : RelationalModel
         {
-            public PeopleTable People { get; set; }
+            public DboSchema Dbo { get; set; }
+            public SecondarySchema Secondary { get; set; }
 
-            [Schema("Secondary")]
-            public PetTable PET { get; set; }
-
-            public sealed class PeopleTable : RelationalTable
+            public class DboSchema : RelationalSchema
             {
-                [PrimaryKey]
-                public RelationalColumn ID { get; set; }
+                public PeopleTable People { get; set; }
 
-                [Flag("TestFlag", true, false)]
-                public new RelationalColumn Name { get; set; }
+                public sealed class PeopleTable : RelationalTable
+                {
+                    [PrimaryKey]
+                    public RelationalColumn ID { get; set; }
 
-                [SingleColumnForeignKey(typeof(PetTable), nameof(PET.Id))]
-                [Flag("TestFlag", true, false)]
-                [Flag("TestFlag", false, false)]
-                public RelationalColumn FavoritePetId { get; set; }
+                    [Flag("TestFlag", true, false)]
+                    public new RelationalColumn Name { get; set; }
+
+                    [SingleColumnForeignKey(typeof(SecondarySchema.PetTable), nameof(SecondarySchema.PetTable.Id))]
+                    [Flag("TestFlag", true, false)]
+                    [Flag("TestFlag", false, false)]
+                    public RelationalColumn FavoritePetId { get; set; }
+                }
             }
 
-            public sealed class PetTable : RelationalTable
+            public class SecondarySchema : RelationalSchema
             {
-                [PrimaryKey]
-                public RelationalColumn Id { get; set; }
+                public PetTable PET { get; set; }
 
-                [SingleColumnForeignKey(typeof(PeopleTable), nameof(People.ID))]
-                public RelationalColumn OwnerPeopleID { get; set; }
+                public sealed class PetTable : RelationalTable
+                {
+                    [PrimaryKey]
+                    public RelationalColumn Id { get; set; }
+
+                    [SingleColumnForeignKey(typeof(DboSchema.PeopleTable), nameof(DboSchema.PeopleTable.ID))]
+                    public RelationalColumn OwnerPeopleID { get; set; }
+                }
             }
 
             public TestModel(string schemaName = null)
                 : base(schemaName)
             {
                 BuildFromProperties();
-
-                PET.AddColumn("Name", false, 1);
+                Secondary.PET.AddColumn("Name", false, 1);
             }
         }
 
         public class BrokenExclusiveFlagTestModel : RelationalModel
         {
-            public PeopleTable People { get; set; }
+            public DboSchema Dbo { get; set; }
 
-            public sealed class PeopleTable : RelationalTable
+            public class DboSchema : RelationalSchema
             {
-                [Flag("TestFlag", true, true)]
-                public new RelationalColumn Name { get; set; }
+                public PeopleTable People { get; set; }
 
-                [Flag("TestFlag", true, true)]
-                public RelationalColumn FavoritePetId { get; set; }
+                public sealed class PeopleTable : RelationalTable
+                {
+                    [Flag("TestFlag", true, true)]
+                    public new RelationalColumn Name { get; set; }
+
+                    [Flag("TestFlag", true, true)]
+                    public RelationalColumn FavoritePetId { get; set; }
+                }
             }
 
             public BrokenExclusiveFlagTestModel(string schemaName)
@@ -71,37 +83,20 @@
         {
             var model = new TestModel("dbo");
 
-            Assert.AreEqual(2, model.Tables.Count);
-            Assert.AreEqual(3, model["dbo.PEOPLE"].Columns.Count);
-            Assert.AreEqual(3, model["secondary.PET"].Columns.Count);
-            Assert.AreEqual(1, model["dbo.People"].ForeignKeys.Count);
-            Assert.AreEqual(1, model["secondary.Pet"].ForeignKeys.Count);
-            Assert.IsTrue(model.PET.ForeignKeys[0].TargetTable == model.People);
-            Assert.IsTrue(model.People.ForeignKeys[0].ColumnPairs[0].SourceColumn == model.People.FavoritePetId);
-            Assert.IsTrue(model.People.ForeignKeys[0].ColumnPairs[0].TargetColumn == model.PET.Id);
-            Assert.IsTrue(model.PET.ForeignKeys[0].ColumnPairs[0].SourceColumn == model.PET.OwnerPeopleID);
-            Assert.IsTrue(model.PET.ForeignKeys[0].ColumnPairs[0].TargetColumn == model.People.ID);
-            Assert.AreEqual(1, model.People.PrimaryKeyColumns.Count);
-            Assert.AreEqual(1, model.PET.PrimaryKeyColumns.Count);
-        }
-
-        [TestMethod]
-        public void KeysNoSchema()
-        {
-            var model = new TestModel();
-
-            Assert.AreEqual(2, model.Tables.Count);
-            Assert.AreEqual(3, model["PEOPLE"].Columns.Count);
-            Assert.AreEqual(3, model["secondary.PET"].Columns.Count);
-            Assert.AreEqual(1, model["People"].ForeignKeys.Count);
-            Assert.AreEqual(1, model["secondary.Pet"].ForeignKeys.Count);
-            Assert.IsTrue(model.PET.ForeignKeys[0].TargetTable == model.People);
-            Assert.IsTrue(model.People.ForeignKeys[0].ColumnPairs[0].SourceColumn == model.People.FavoritePetId);
-            Assert.IsTrue(model.People.ForeignKeys[0].ColumnPairs[0].TargetColumn == model.PET.Id);
-            Assert.IsTrue(model.PET.ForeignKeys[0].ColumnPairs[0].SourceColumn == model.PET.OwnerPeopleID);
-            Assert.IsTrue(model.PET.ForeignKeys[0].ColumnPairs[0].TargetColumn == model.People.ID);
-            Assert.AreEqual(1, model.People.PrimaryKeyColumns.Count);
-            Assert.AreEqual(1, model.PET.PrimaryKeyColumns.Count);
+            Assert.AreEqual(2, model.Schemas.Count);
+            Assert.AreEqual(1, model.Dbo.Tables.Count);
+            Assert.AreEqual(1, model.Secondary.Tables.Count);
+            Assert.AreEqual(3, model["dbo"]["PEOPLE"].Columns.Count);
+            Assert.AreEqual(3, model["secondary"]["PET"].Columns.Count);
+            Assert.AreEqual(1, model["dbo"]["People"].ForeignKeys.Count);
+            Assert.AreEqual(1, model["secondary"]["Pet"].ForeignKeys.Count);
+            Assert.IsTrue(model.Secondary.PET.ForeignKeys[0].TargetTable == model.Dbo.People);
+            Assert.IsTrue(model.Dbo.People.ForeignKeys[0].ColumnPairs[0].SourceColumn == model.Dbo.People.FavoritePetId);
+            Assert.IsTrue(model.Dbo.People.ForeignKeys[0].ColumnPairs[0].TargetColumn == model.Secondary.PET.Id);
+            Assert.IsTrue(model.Secondary.PET.ForeignKeys[0].ColumnPairs[0].SourceColumn == model.Secondary.PET.OwnerPeopleID);
+            Assert.IsTrue(model.Secondary.PET.ForeignKeys[0].ColumnPairs[0].TargetColumn == model.Dbo.People.ID);
+            Assert.AreEqual(1, model.Dbo.People.PrimaryKeyColumns.Count);
+            Assert.AreEqual(1, model.Secondary.PET.PrimaryKeyColumns.Count);
         }
 
         [TestMethod]
@@ -109,10 +104,10 @@
         {
             var model = new TestModel("dbo");
 
-            Assert.IsTrue(model.People.Name.GetFlag("TestFlag"));
-            Assert.IsFalse(model.People.FavoritePetId.GetFlag("TestFlag"));
+            Assert.IsTrue(model.Dbo.People.Name.GetFlag("TestFlag"));
+            Assert.IsFalse(model.Dbo.People.FavoritePetId.GetFlag("TestFlag"));
 
-            Assert.AreEqual(1, model.People.GetColumnsWithFlag("TestFlag").Count);
+            Assert.AreEqual(1, model.Dbo.People.GetColumnsWithFlag("TestFlag").Count);
         }
 
         [TestMethod]
