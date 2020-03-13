@@ -54,6 +54,12 @@
                         table.SetFlag(flagAttribute.Name, flagAttribute.Value);
                     }
 
+                    var additionalDataAttributes = tableProperty.GetCustomAttributes<AdditionalDataAttribute>();
+                    foreach (var additionalDataAttribute in additionalDataAttributes)
+                    {
+                        table.SetAdditionalData(additionalDataAttribute.Name, additionalDataAttribute.Value);
+                    }
+
                     foreach (var columnProperty in tableProperty.PropertyType.GetProperties())
                     {
                         if (!typeof(RelationalColumn).IsAssignableFrom(columnProperty.PropertyType) || columnProperty.DeclaringType != tableProperty.PropertyType)
@@ -76,6 +82,12 @@
                         foreach (var flagAttribute in flagAttributes)
                         {
                             column.SetFlag(flagAttribute.Name, flagAttribute.Value);
+                        }
+
+                        additionalDataAttributes = columnProperty.GetCustomAttributes<AdditionalDataAttribute>();
+                        foreach (var additionalDataAttribute in additionalDataAttributes)
+                        {
+                            column.SetAdditionalData(additionalDataAttribute.Name, additionalDataAttribute.Value);
                         }
                     }
                 }
