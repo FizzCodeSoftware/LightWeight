@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using FizzCode.LightWeight.Collections;
@@ -49,6 +48,12 @@
                     schema.AddTable(table, tableProperty.Name);
                     tableProperty.SetValue(schema, table);
 
+                    var flagAttributes = tableProperty.GetCustomAttributes<FlagAttribute>();
+                    foreach (var flagAttribute in flagAttributes)
+                    {
+                        table.SetFlag(flagAttribute.Name, flagAttribute.Value);
+                    }
+
                     foreach (var columnProperty in tableProperty.PropertyType.GetProperties())
                     {
                         if (!typeof(RelationalColumn).IsAssignableFrom(columnProperty.PropertyType) || columnProperty.DeclaringType != tableProperty.PropertyType)
@@ -67,18 +72,10 @@
                             allSingleColumnFkAttributes.Add(new Tuple<RelationalColumn, List<SingleColumnForeignKeyAttribute>>(column, fkAttributes));
                         }
 
-                        var flagAttributes = columnProperty.GetCustomAttributes<FlagAttribute>();
+                        flagAttributes = columnProperty.GetCustomAttributes<FlagAttribute>();
                         foreach (var flagAttribute in flagAttributes)
                         {
-                            if (flagAttribute.Exclusive)
-                            {
-                                if (column.Table.GetColumnsWithFlag(flagAttribute.Name).Count > 0)
-                                {
-                                    throw new Exception(string.Format(CultureInfo.InvariantCulture, "more than 1 column uses the same exclusive flag: {0}", flagAttribute.Name));
-                                }
-                            }
-
-                            column.SetFlag(flagAttribute.Name, flagAttribute.Value, flagAttribute.Exclusive);
+                            column.SetFlag(flagAttribute.Name, flagAttribute.Value);
                         }
                     }
                 }

@@ -1,6 +1,5 @@
 ﻿namespace LightWeight.RelationalModel.Tests
 {
-    using System;
     using FizzCode.LightWeight.RelationalModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,17 +15,17 @@
             {
                 public PeopleTable People { get; set; }
 
-                public sealed class PeopleTable : RelationalTable
+                public class PeopleTable : RelationalTable
                 {
                     [PrimaryKey]
                     public RelationalColumn ID { get; set; }
 
-                    [Flag("TestFlag", true, false)]
+                    [Flag("TestFlag", true)]
                     public new RelationalColumn Name { get; set; }
 
                     [SingleColumnForeignKey(typeof(SecondarySchema.PetTable), nameof(SecondarySchema.PetTable.Id))]
-                    [Flag("TestFlag", true, false)]
-                    [Flag("TestFlag", false, false)]
+                    [Flag("TestFlag", true)]
+                    [Flag("TestFlag", false)]
                     public RelationalColumn FavoritePetId { get; set; }
                 }
             }
@@ -35,7 +34,7 @@
             {
                 public PetTable PET { get; set; }
 
-                public sealed class PetTable : RelationalTable
+                public class PetTable : RelationalTable
                 {
                     [PrimaryKey]
                     public RelationalColumn Id { get; set; }
@@ -50,31 +49,6 @@
             {
                 BuildFromProperties();
                 Secondary.PET.AddColumn("Name", false, 1);
-            }
-        }
-
-        public class BrokenExclusiveFlagTestModel : RelationalModel
-        {
-            public DboSchema Dbo { get; set; }
-
-            public class DboSchema : RelationalSchema
-            {
-                public PeopleTable People { get; set; }
-
-                public sealed class PeopleTable : RelationalTable
-                {
-                    [Flag("TestFlag", true, true)]
-                    public new RelationalColumn Name { get; set; }
-
-                    [Flag("TestFlag", true, true)]
-                    public RelationalColumn FavoritePetId { get; set; }
-                }
-            }
-
-            public BrokenExclusiveFlagTestModel(string schemaName)
-                : base(schemaName)
-            {
-                BuildFromProperties();
             }
         }
 
@@ -108,13 +82,6 @@
             Assert.IsFalse(model.Dbo.People.FavoritePetId.GetFlag("TestFlag"));
 
             Assert.AreEqual(1, model.Dbo.People.GetColumnsWithFlag("TestFlag").Count);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void BrokenExclusiveFlag()
-        {
-            var _ = new BrokenExclusiveFlagTestModel("dbo");
         }
     }
 }

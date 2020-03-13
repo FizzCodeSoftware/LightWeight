@@ -14,6 +14,8 @@
 
         public RelationalColumn this[string columnName] => _columns[columnName];
 
+        public IEnumerable<string> FlagList => _flags ?? Enumerable.Empty<string>();
+        public IEnumerable<AdditionalData> AdditionalDataList => _additionalData ?? Enumerable.Empty<AdditionalData>();
         public IReadOnlyList<RelationalColumn> Columns => _columns.GetItemsAsReadonly();
         public IReadOnlyList<RelationalColumn> PrimaryKeyColumns => _primaryKeyColumns.GetItemsAsReadonly();
         public IReadOnlyList<RelationalForeignKey> ForeignKeys => _foreignKeys.AsReadOnly();
@@ -24,8 +26,8 @@
         private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalColumn> _primaryKeyColumns = new OrderedCaseInsensitiveStringKeyDictionary<RelationalColumn>();
         private readonly CaseInsensitiveStringKeyDictionary<List<RelationalColumn>> _columnsByFlags = new CaseInsensitiveStringKeyDictionary<List<RelationalColumn>>();
 
-        private CaseInsensitiveStringKeyDictionary<bool> _flags;
-        private CaseInsensitiveStringKeyDictionary<object> _additionalData;
+        private CaseInsensitiveStringKeyDictionary<string> _flags;
+        private CaseInsensitiveStringKeyDictionary<AdditionalData> _additionalData;
         private readonly List<RelationalForeignKey> _foreignKeys = new List<RelationalForeignKey>();
 
         internal void Initialize(RelationalSchema schema, string name)
@@ -79,31 +81,22 @@
             return fk;
         }
 
-        public void SetFlag(string flag, bool value, bool exclusive)
+        public void SetFlag(string flag, bool value)
         {
             if (value)
             {
                 if (_flags == null)
-                    _flags = new CaseInsensitiveStringKeyDictionary<bool>();
+                    _flags = new CaseInsensitiveStringKeyDictionary<string>();
 
-                if (!_flags[flag])
+                if (!_flags.ContainsKey(flag))
                 {
-                    _flags[flag] = true;
+                    _flags[flag] = flag;
                     Schema.Model.HandleTableFlagged(this, flag, true);
-                }
-
-                if (exclusive)
-                {
-                    foreach (var t in Schema.Model.GetTablesWithFlag(flag))
-                    {
-                        if (t != this)
-                            t.SetFlag(flag, false, false);
-                    }
                 }
             }
             else if (_flags != null)
             {
-                if (_flags[flag])
+                if (_flags.ContainsKey(flag))
                 {
                     _flags.Remove(flag);
                     Schema.Model.HandleTableFlagged(this, flag, false);
@@ -119,7 +112,7 @@
             if (_flags == null)
                 return false;
 
-            return _flags[flag];
+            return _flags.ContainsKey(flag);
         }
 
         internal void HandleColumnFlagged(RelationalColumn column, string flag, bool value)
@@ -152,9 +145,9 @@
         public void SetAdditionalData(string key, object value)
         {
             if (_additionalData == null)
-                _additionalData = new CaseInsensitiveStringKeyDictionary<object>();
+                _additionalData = new CaseInsensitiveStringKeyDictionary<AdditionalData>();
 
-            _additionalData[key] = value;
+            _additionalData[key] = new AdditionalData(key, value);
         }
 
         public object GetAdditionalData(string key)
@@ -162,7 +155,7 @@
             if (_additionalData == null)
                 return null;
 
-            return _additionalData[key];
+            return _additionalData[key]?.Value;
         }
     }
 }

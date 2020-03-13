@@ -7,13 +7,11 @@
     {
         public string Name { get; }
         public bool Value { get; }
-        public bool Exclusive { get; }
 
-        public FlagAttribute(string name, bool value, bool exclusive)
+        public FlagAttribute(string name, bool value)
         {
             Name = name;
             Value = value;
-            Exclusive = exclusive;
         }
     }
 }

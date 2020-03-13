@@ -25,6 +25,11 @@
             set => Add(key, value);
         }
 
+        public bool ContainsKey(string key)
+        {
+            return _itemsByUpperKey.ContainsKey(key.ToUpperInvariant());
+        }
+
         public void Add(string key, T value)
         {
             _itemsByUpperKey[key.ToUpperInvariant()] = value;
