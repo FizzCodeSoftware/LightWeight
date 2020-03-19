@@ -6,7 +6,7 @@
     using System.Globalization;
     using System.Linq;
 
-    [DebuggerDisplay("{TargetTable}")]
+    [DebuggerDisplay("{DisplayNameWithSource}")]
     public class RelationalForeignKey
     {
         public RelationalTable SourceTable { get; }

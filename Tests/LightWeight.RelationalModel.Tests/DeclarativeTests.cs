@@ -44,8 +44,8 @@
                 }
             }
 
-            public TestModel(string schemaName = null)
-                : base(schemaName)
+            public TestModel(string defaultSchemaName = null)
+                : base(defaultSchemaName)
             {
                 BuildFromProperties();
                 Secondary.PET.AddColumn("Name", false, 1);

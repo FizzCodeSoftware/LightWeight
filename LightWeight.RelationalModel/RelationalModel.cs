@@ -8,7 +8,7 @@
 
     public class RelationalModel
     {
-        public RelationalSchema DefaultSchema { get; }
+        public RelationalSchema DefaultSchema { get; private set; }
 
         public IReadOnlyList<RelationalSchema> Schemas => _schemas.GetItemsAsReadonly();
         public RelationalSchema this[string schemaName] => _schemas[schemaName];
@@ -39,6 +39,9 @@
 
                 schemaProperty.SetValue(this, schema);
 
+                if (DefaultSchema == null)
+                    DefaultSchema = schema;
+
                 foreach (var tableProperty in schemaProperty.PropertyType.GetProperties())
                 {
                     if (!typeof(RelationalTable).IsAssignableFrom(tableProperty.PropertyType) || tableProperty.DeclaringType != schemaProperty.PropertyType)
@@ -48,13 +51,13 @@
                     schema.AddTable(table, tableProperty.Name);
                     tableProperty.SetValue(schema, table);
 
-                    var flagAttributes = tableProperty.GetCustomAttributes<FlagAttribute>();
+                    var flagAttributes = tableProperty.PropertyType.GetCustomAttributes<FlagAttribute>();
                     foreach (var flagAttribute in flagAttributes)
                     {
                         table.SetFlag(flagAttribute.Name, flagAttribute.Value);
                     }
 
-                    var additionalDataAttributes = tableProperty.GetCustomAttributes<AdditionalDataAttribute>();
+                    var additionalDataAttributes = tableProperty.PropertyType.GetCustomAttributes<AdditionalDataAttribute>();
                     foreach (var additionalDataAttribute in additionalDataAttributes)
                     {
                         table.SetAdditionalData(additionalDataAttribute.Name, additionalDataAttribute.Value);
