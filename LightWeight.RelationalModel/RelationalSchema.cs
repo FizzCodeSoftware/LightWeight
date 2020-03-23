@@ -1,8 +1,10 @@
 ﻿namespace FizzCode.LightWeight.RelationalModel
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using FizzCode.LightWeight.Collections;
 
+    [DebuggerDisplay("{Name}")]
     public class RelationalSchema
     {
         public RelationalModel Model { get; private set; }
