@@ -83,6 +83,9 @@
                         if (column.IsPrimaryKey)
                             builder.AppendLine("\t\t\t\t[PrimaryKey]");
 
+                        if (column.IsIdentity)
+                            builder.AppendLine("\t\t\t\t[Identity]");
+
                         foreach (var fk in table.ForeignKeys.Where(fk => fk.ColumnPairs.Count == 1 && fk.ColumnPairs[0].SourceColumn == column))
                         {
                             builder
