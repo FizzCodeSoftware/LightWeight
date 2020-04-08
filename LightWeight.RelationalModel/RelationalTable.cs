@@ -14,8 +14,8 @@
 
         public RelationalColumn this[string columnName] => _columns[columnName];
 
-        public IEnumerable<string> FlagList => _flags ?? Enumerable.Empty<string>();
-        public IEnumerable<AdditionalData> AdditionalDataList => _additionalData ?? Enumerable.Empty<AdditionalData>();
+        public IEnumerable<string> FlagList => _flags?.Values ?? Enumerable.Empty<string>();
+        public IEnumerable<AdditionalData> AdditionalDataList => _additionalData?.Values ?? Enumerable.Empty<AdditionalData>();
         public IReadOnlyList<RelationalColumn> Columns => _columns.GetItemsAsReadonly();
         public IReadOnlyList<RelationalColumn> PrimaryKeyColumns => _primaryKeyColumns.GetItemsAsReadonly();
         public IReadOnlyList<RelationalForeignKey> ForeignKeys => _foreignKeys.AsReadOnly();

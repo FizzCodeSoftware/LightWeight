@@ -5,8 +5,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CaseInsensitiveStringKeyDictionary<T> : IEnumerable<T>
+    public class CaseInsensitiveStringKeyDictionary<T> : IEnumerable<KeyValuePair<string, T>>
     {
+        public IEnumerable<T> Values => _items.Values;
+
         private readonly Dictionary<string, T> _items = new Dictionary<string, T>(StringComparer.InvariantCultureIgnoreCase);
 
         public IReadOnlyList<T> GetItemsAsReadonly()
@@ -31,6 +33,11 @@
             return _items.ContainsKey(key);
         }
 
+        public bool ContainsValue(T value)
+        {
+            return _items.ContainsValue(value);
+        }
+
         public void Add(string key, T value)
         {
             _items[key] = value;
@@ -46,14 +53,14 @@
             _items.Clear();
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
         {
-            return _items.Values.GetEnumerator();
+            return _items.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _items.Values.GetEnumerator();
+            return _items.GetEnumerator();
         }
     }
 }

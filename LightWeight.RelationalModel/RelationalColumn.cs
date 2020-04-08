@@ -14,8 +14,8 @@
 
         public bool IsIdentity { get; private set; }
 
-        public IEnumerable<string> FlagList => _flags ?? Enumerable.Empty<string>();
-        public IEnumerable<AdditionalData> AdditionalDataList => _additionalData ?? Enumerable.Empty<AdditionalData>();
+        public IEnumerable<string> FlagList => _flags?.Values ?? Enumerable.Empty<string>();
+        public IEnumerable<AdditionalData> AdditionalDataList => _additionalData?.Values ?? Enumerable.Empty<AdditionalData>();
 
         private CaseInsensitiveStringKeyDictionary<string> _flags;
         private CaseInsensitiveStringKeyDictionary<AdditionalData> _additionalData;

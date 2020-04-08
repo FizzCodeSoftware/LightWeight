@@ -111,10 +111,10 @@
                 ["y"] = 21
             };
 
+            Assert.AreEqual(2, dict.Count);
             Assert.AreEqual(2, dict.Count());
-            Assert.IsTrue(dict.Any(x => x == 17));
-            Assert.IsTrue(dict.Any(x => x == 21));
-            Assert.IsTrue(dict.All(x => x == 17 || x == 21));
+            Assert.IsTrue(dict.ContainsValue(17));
+            Assert.IsTrue(dict.ContainsValue(21));
         }
     }
 }
