@@ -8,7 +8,7 @@
     public class OrderedCaseInsensitiveStringKeyDictionary<TItem> : IEnumerable<TItem>
     {
         private readonly List<Entry> _entriesOrdered = new List<Entry>();
-        private readonly Dictionary<string, Entry> _entries = new Dictionary<string, Entry>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly Dictionary<string, Entry> _entries = new Dictionary<string, Entry>(StringComparer.OrdinalIgnoreCase);
 
         public IReadOnlyList<TItem> GetItemsAsReadonly()
         {

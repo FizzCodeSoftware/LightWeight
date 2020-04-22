@@ -9,7 +9,7 @@
     {
         public IEnumerable<T> Values => _items.Values;
 
-        private readonly Dictionary<string, T> _items = new Dictionary<string, T>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly Dictionary<string, T> _items = new Dictionary<string, T>(StringComparer.OrdinalIgnoreCase);
 
         public IReadOnlyList<T> GetItemsAsReadonly()
         {
