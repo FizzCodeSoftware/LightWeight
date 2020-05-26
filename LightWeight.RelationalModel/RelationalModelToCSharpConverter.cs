@@ -8,7 +8,7 @@
 
     public static class RelationalModelToCSharpConverter
     {
-        public static void GenerateCSharpFile(string fileName, RelationalModel model, string @namespace, string modelClassName)
+        public static void GenerateCSharpFile(string fileName, RelationalModel model, string @namespace, string modelClassName, bool partialClass = false)
         {
             var builder = new StringBuilder();
             builder.AppendLine("#pragma warning disable CA1034 // Nested types should not be visible");
@@ -17,7 +17,7 @@
             builder.AppendLine("{");
             builder.AppendLine("\tusing FizzCode.LightWeight.RelationalModel;");
             builder.AppendLine();
-            builder.Append("\tpublic class ").Append(modelClassName).AppendLine(" : RelationalModel");
+            builder.Append("\tpublic ").Append(partialClass ? "partial " : "").Append("class ").Append(modelClassName).AppendLine(" : RelationalModel");
             builder.AppendLine("\t{");
 
             foreach (var schema in model.Schemas)
@@ -39,7 +39,7 @@
             {
                 var schemaClassName = schema.Name + "Schema";
 
-                builder.Append("\t\tpublic class ").Append(schemaClassName).AppendLine(" : RelationalSchema");
+                builder.Append("\t\tpublic ").Append(partialClass ? "partial " : "").Append("class ").Append(schemaClassName).AppendLine(" : RelationalSchema");
                 builder.AppendLine("\t\t{");
                 foreach (var table in schema.Tables)
                 {
