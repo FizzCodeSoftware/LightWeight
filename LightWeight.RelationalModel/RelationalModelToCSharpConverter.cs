@@ -107,6 +107,18 @@
                             builder.Append("\t\t\t\t[Flag(\"").Append(flag).AppendLine("\", true)]");
                         }
 
+                        foreach (var additionalData in column.AdditionalDataList)
+                        {
+                            if (additionalData.Value is int iv)
+                            {
+                                builder.Append("\t\t\t\t[AdditionalData(\"").Append(additionalData.Key).Append("\", ").Append(iv.ToString("D", CultureInfo.InvariantCulture)).AppendLine(")]");
+                            }
+                            else if (additionalData.Value is string sv)
+                            {
+                                builder.Append("\t\t\t\t[AdditionalData(\"").Append(additionalData.Key).Append("\", \"").Append(sv).AppendLine("\")]");
+                            }
+                        }
+
                         var newPrefix = "";
                         if (column.Name == "Name")
                             newPrefix = "new ";
