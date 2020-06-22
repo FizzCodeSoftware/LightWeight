@@ -5,7 +5,7 @@
     <PackageId>FizzCode.LightWeight.MsTest</PackageId>
     <Authors>FizzCode Ltd.</Authors>
     <Product>LightWeight libraries for .NET Core</Product>
-    <Description>LightWeight MsTest UnitTest Extensions</Description>
+    <Description>Lightweight MsTest UnitTest Extensions</Description>
     <Copyright>Copyright © 2019-2020 FizzCode Ltd.</Copyright>
     <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
