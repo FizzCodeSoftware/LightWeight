@@ -28,6 +28,18 @@
 
             for (var i = 0; i < expecteds.Length; i++)
             {
+                if (actuals.Length == i)
+                {
+                    msg.Append((i + 1).ToString(CultureInfo.InvariantCulture));
+                    msg.Append(". Actual has less rows (");
+                    msg.Append(i - 1);
+                    msg.AppendLine(") than expected:");
+                    msg.AppendLine("ˇ");
+                    msg.AppendLine(expecteds[i]);
+                    msg.AppendLine();
+                    break;
+                }
+
                 areEqual = string.Compare(expecteds[i], actuals[i], ignoreCase ? System.StringComparison.OrdinalIgnoreCase : System.StringComparison.Ordinal);
 
                 if (areEqual == 0)
