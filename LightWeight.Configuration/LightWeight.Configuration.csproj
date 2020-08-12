@@ -2,16 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageId>FizzCode.LightWeight.Collections</PackageId>
+    <PackageId>FizzCode.LightWeight.Configuration</PackageId>
     <Authors>FizzCode Ltd.</Authors>
     <Product>LightWeight libraries for .NET Core</Product>
-    <Description>Specialized collections</Description>
+    <Description>Configuration file helpers</Description>
     <Copyright>Copyright © 2019-2020 FizzCode Ltd.</Copyright>
     <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
     <CodeAnalysisRuleSet>..\FizzCode.ruleset</CodeAnalysisRuleSet>
-    <AssemblyName>FizzCode.LightWeight.Collections</AssemblyName>
-    <RootNamespace>FizzCode.LightWeight.Collections</RootNamespace>
+    <AssemblyName>FizzCode.LightWeight.Configuration</AssemblyName>
+    <RootNamespace>FizzCode.LightWeight.Configuration</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591</NoWarn>
     <Configurations>Debug;Release</Configurations>
@@ -22,10 +22,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.7" />
     <PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.0.0-rc">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
