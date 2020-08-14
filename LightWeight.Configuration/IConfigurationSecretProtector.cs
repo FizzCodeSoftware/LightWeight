@@ -4,7 +4,7 @@
 
     public interface IConfigurationSecretProtector
     {
-        void Init(IConfigurationSection configurationSection);
+        bool Init(IConfigurationSection configurationSection);
 
         string Encrypt(string value);
         string Decrypt(string value);
