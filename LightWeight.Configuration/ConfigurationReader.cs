@@ -29,7 +29,13 @@
                 return value;
             }
 
-            return configuration.GetValue(section + ":" + key, defaultValue);
+            value = configuration.GetValue(section + ":" + key, defaultValue);
+            if (value != null && isProtected && protector != null)
+            {
+                value = protector.Decrypt(value);
+            }
+
+            return value;
         }
     }
 }
