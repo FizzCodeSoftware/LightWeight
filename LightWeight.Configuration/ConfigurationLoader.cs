@@ -5,7 +5,7 @@
 
     public static class ConfigurationLoader
     {
-        public static IConfigurationRoot Load(string fileName, bool optional = false)
+        public static IConfigurationRoot LoadFromJsonFile(string fileName, bool optional = false)
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(fileName + ".json", optional)
