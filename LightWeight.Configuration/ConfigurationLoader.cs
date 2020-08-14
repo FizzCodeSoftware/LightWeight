@@ -1,0 +1,19 @@
+﻿namespace FizzCode.LightWeight.Configuration
+{
+    using System;
+    using Microsoft.Extensions.Configuration;
+
+    public static class ConfigurationLoader
+    {
+        public static IConfigurationRoot Load(string fileName, bool optional = false)
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(fileName + ".json", optional)
+                .AddJsonFile(fileName + "-local.json", true)
+                .AddJsonFile(fileName + "-" + Environment.MachineName + ".json", true)
+                .Build();
+
+            return configuration;
+        }
+    }
+}
