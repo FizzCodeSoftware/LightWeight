@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>FizzCode.LightWeight.MsTest</PackageId>
     <Authors>FizzCode Ltd.</Authors>
-    <Product>LightWeight libraries for .NET Core</Product>
+    <Product>LightWeight libraries for .NET</Product>
     <Description>Lightweight MsTest UnitTest Extensions</Description>
     <Copyright>Copyright © 2019-2020 FizzCode Ltd.</Copyright>
     <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>

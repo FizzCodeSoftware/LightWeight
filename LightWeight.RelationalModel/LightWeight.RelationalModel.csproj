@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>FizzCode.LightWeight.RelationalModel</PackageId>
     <Authors>FizzCode Ltd.</Authors>
-    <Product>LightWeight libraries for .NET Core</Product>
+    <Product>LightWeight libraries for .NET</Product>
     <Description>A lightweight relational model</Description>
     <Copyright>Copyright © 2019-2020 FizzCode Ltd.</Copyright>
     <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>

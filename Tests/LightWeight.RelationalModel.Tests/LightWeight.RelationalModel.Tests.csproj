@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Authors>FizzCode Ltd.</Authors>
-    <Product>LightWeight libraries for .NET Core</Product>
+    <Product>LightWeight libraries for .NET</Product>
     <CodeAnalysisRuleSet>..\..\FizzCode.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

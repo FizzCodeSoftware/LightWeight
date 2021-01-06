@@ -1,5 +1,5 @@
 # FizzCode LightWeight
-###### General, lightweight libraries for .NET Core 3
+###### General, lightweight libraries for .NET
 
 # License
 
