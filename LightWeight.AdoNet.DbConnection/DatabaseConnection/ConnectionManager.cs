@@ -252,7 +252,7 @@
             }
         }
 
-        public static void TestConnection(NamedConnectionString connectionString)
+        public void TestConnection(NamedConnectionString connectionString)
         {
             IDbConnection conn = null;
 
