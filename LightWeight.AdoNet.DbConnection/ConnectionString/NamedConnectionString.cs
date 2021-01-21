@@ -1,5 +1,9 @@
 ﻿namespace FizzCode.LightWeight.AdoNet
 {
+    using System.Diagnostics;
+    using System.Globalization;
+
+    [DebuggerDisplay("{Name}, {ProviderName}, {ConnectionString}")]
     public class NamedConnectionString
     {
         public string Name { get; }
@@ -23,6 +27,11 @@
                 return SqlEngine.ToString();
 
             return ProviderName;
+        }
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
         }
     }
 }
