@@ -200,7 +200,7 @@
                     .ToString("HHmmssfff", CultureInfo.InvariantCulture);
         }
 
-        internal void ConnectionFailed(DatabaseConnection connection)
+        public void ConnectionFailed(DatabaseConnection connection)
         {
             lock (_connections)
             {
