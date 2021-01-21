@@ -17,7 +17,7 @@
 
         public void SetFailed()
         {
-            Manager.ConnectionFailed(this);
+            Manager?.ConnectionFailed(this);
         }
     }
 }

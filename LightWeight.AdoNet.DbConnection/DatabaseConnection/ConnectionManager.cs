@@ -99,6 +99,7 @@
 
                         return new T()
                         {
+                            Manager = this,
                             Key = null,
                             ConnectionString = connectionString,
                             Connection = conn,
@@ -121,7 +122,7 @@
             return null;
         }
 
-        public static DatabaseConnection GetNewConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
+        public DatabaseConnection GetNewConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
         {
             Exception lastException = null;
 
@@ -159,6 +160,7 @@
 
                     return new DatabaseConnection()
                     {
+                        Manager = this,
                         Key = null,
                         ConnectionString = connectionString,
                         Connection = conn,
