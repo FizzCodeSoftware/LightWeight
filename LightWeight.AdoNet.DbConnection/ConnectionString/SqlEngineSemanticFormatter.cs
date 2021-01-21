@@ -21,8 +21,12 @@
 
         public static void RegisterFormatter(ISqlEngineSemanticFormatter formatter)
         {
-            _sqlEngineByProviderName[formatter.ProviderName] = formatter.SqlEngine;
-            _formattersByProviderName[formatter.ProviderName] = formatter;
+            if (formatter.ProviderName != null)
+            {
+                _sqlEngineByProviderName[formatter.ProviderName] = formatter.SqlEngine;
+                _formattersByProviderName[formatter.ProviderName] = formatter;
+            }
+
             _formattersBySqlEngine[formatter.SqlEngine] = formatter;
         }
 
