@@ -2,15 +2,9 @@
 {
     using System;
 
-    public class DisposableDatabaseConnection : IDisposable
+    public class DisposableDatabaseConnection : DatabaseConnection, IDisposable
     {
         private bool _disposed;
-        private DatabaseConnection _connection;
-
-        internal DisposableDatabaseConnection(DatabaseConnection connection)
-        {
-            _connection = connection;
-        }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -19,16 +13,12 @@
 
             if (disposing)
             {
-                if (_connection != null)
-                {
-                    _connection.Manager.ReleaseConnection(_connection);
-                }
+                Manager.ReleaseConnection(this);
             }
 
-            if (_connection.ReferenceCount == 0)
+            if (ReferenceCount == 0)
             {
                 _disposed = true;
-                _connection = null;
             }
         }
 

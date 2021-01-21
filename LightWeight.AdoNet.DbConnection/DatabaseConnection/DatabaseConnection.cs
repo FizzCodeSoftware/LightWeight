@@ -15,10 +15,6 @@
         public int ReferenceCount { get; internal set; }
         public bool Failed { get; internal set; }
 
-        internal DatabaseConnection()
-        {
-        }
-
         public void SetFailed()
         {
             Manager.ConnectionFailed(this);

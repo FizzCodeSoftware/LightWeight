@@ -24,14 +24,16 @@
 
         public DisposableDatabaseConnection GetDisposableConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000)
         {
-            var conn = GetConnection(connectionString, maxRetryCount, retryDelayMilliseconds);
-            if (conn != null)
-                return new DisposableDatabaseConnection(conn);
-
-            return null;
+            return GetConnection<DisposableDatabaseConnection>(connectionString, maxRetryCount, retryDelayMilliseconds);
         }
 
         public DatabaseConnection GetConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
+        {
+            return GetConnection<DatabaseConnection>(connectionString, maxRetryCount, retryDelayMilliseconds, onOpening, onOpened, onError);
+        }
+
+        public T GetConnection<T>(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
+            where T : DatabaseConnection, new()
         {
             var key = connectionString.Name;
 
@@ -62,7 +64,7 @@
                     if (_connections.TryGetValue(key, out var connection))
                     {
                         connection.ReferenceCount++;
-                        return connection;
+                        return connection as T;
                     }
 
                     try
@@ -95,7 +97,7 @@
                             throw;
                         }
 
-                        return new DatabaseConnection()
+                        return new T()
                         {
                             Key = null,
                             ConnectionString = connectionString,
