@@ -79,7 +79,21 @@
 
                         if (conn == null)
                         {
-                            conn = DbProviderFactories.GetFactory(connectionString.ProviderName).CreateConnection();
+                            try
+                            {
+                                var factory = DbProviderFactories.GetFactory(connectionString.ProviderName);
+                                if (factory == null)
+                                {
+                                    throw new Exception("unregistered DbProviderFactory: " + connectionString.ProviderName);
+                                }
+
+                                conn = factory.CreateConnection();
+                            }
+                            catch (Exception ex)
+                            {
+                                onError?.Invoke(connectionString, conn, retry, ex);
+                                throw;
+                            }
                         }
 
                         conn.ConnectionString = connectionString.ConnectionString;
