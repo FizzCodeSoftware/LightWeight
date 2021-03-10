@@ -32,11 +32,6 @@
             _connectionStrings[connectionString.Name] = connectionString;
         }
 
-        public IEnumerator<NamedConnectionString> GetEnumerator()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public NamedConnectionString this[string name]
         {
             get
