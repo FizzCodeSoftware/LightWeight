@@ -5,7 +5,7 @@
 
     public static class ConfigurationReader
     {
-        public static T GetCurrentValue<T>(IConfigurationRoot configuration, string section, string key, T defaultValue)
+        public static T GetCurrentValue<T>(IConfiguration configuration, string section, string key, T defaultValue)
         {
             var value = configuration.GetValue<T>(section + ":" + key + "-" + Environment.MachineName, default);
             if (value != null && !value.Equals(default(T)))
@@ -14,7 +14,7 @@
             return configuration.GetValue(section + ":" + key, defaultValue);
         }
 
-        public static string GetCurrentValue(IConfigurationRoot configuration, string section, string key, string defaultValue, IConfigurationSecretProtector protector = null)
+        public static string GetCurrentValue(IConfiguration configuration, string section, string key, string defaultValue, IConfigurationSecretProtector protector = null)
         {
             var isProtected = configuration.GetValue(section + ":" + key + "-protected", false);
 
