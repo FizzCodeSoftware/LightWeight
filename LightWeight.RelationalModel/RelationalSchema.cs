@@ -13,7 +13,7 @@
         public IReadOnlyList<RelationalTable> Tables => _tables.GetItemsAsReadonly();
         public RelationalTable this[string tableName] => _tables[tableName];
 
-        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalTable> _tables = new OrderedCaseInsensitiveStringKeyDictionary<RelationalTable>();
+        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalTable> _tables = new();
 
         public void Initialize(RelationalModel model, string name = null)
         {

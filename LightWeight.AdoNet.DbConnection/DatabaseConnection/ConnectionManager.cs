@@ -20,11 +20,11 @@
     {
         public bool SeparateConnectionsByThreadId { get; set; } = true;
 
-        private readonly Dictionary<string, DatabaseConnection> _connections = new Dictionary<string, DatabaseConnection>();
+        private readonly Dictionary<string, DatabaseConnection> _connections = new();
 
-        public DisposableDatabaseConnection GetDisposableConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000)
+        public DisposableDatabaseConnection GetDisposableConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
         {
-            return GetConnection<DisposableDatabaseConnection>(connectionString, maxRetryCount, retryDelayMilliseconds);
+            return GetConnection<DisposableDatabaseConnection>(connectionString, maxRetryCount, retryDelayMilliseconds, onOpening, onOpened, onError);
         }
 
         public DatabaseConnection GetConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
@@ -154,7 +154,21 @@
 
                     if (conn == null)
                     {
-                        conn = DbProviderFactories.GetFactory(connectionString.ProviderName).CreateConnection();
+                        try
+                        {
+                            var factory = DbProviderFactories.GetFactory(connectionString.ProviderName);
+                            if (factory == null)
+                            {
+                                throw new Exception("unregistered DbProviderFactory: " + connectionString.ProviderName);
+                            }
+
+                            conn = factory.CreateConnection();
+                        }
+                        catch (Exception ex)
+                        {
+                            onError?.Invoke(connectionString, conn, retry, ex);
+                            throw;
+                        }
                     }
 
                     conn.ConnectionString = connectionString.ConnectionString;

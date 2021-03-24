@@ -13,8 +13,8 @@
         public IReadOnlyList<RelationalSchema> Schemas => _schemas.GetItemsAsReadonly();
         public RelationalSchema this[string schemaName] => _schemas[schemaName];
 
-        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalSchema> _schemas = new OrderedCaseInsensitiveStringKeyDictionary<RelationalSchema>();
-        private readonly CaseInsensitiveStringKeyDictionary<List<RelationalTable>> _tablesByFlags = new CaseInsensitiveStringKeyDictionary<List<RelationalTable>>();
+        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalSchema> _schemas = new();
+        private readonly CaseInsensitiveStringKeyDictionary<List<RelationalTable>> _tablesByFlags = new();
 
         public RelationalModel(string defaultSchemaName = null)
         {

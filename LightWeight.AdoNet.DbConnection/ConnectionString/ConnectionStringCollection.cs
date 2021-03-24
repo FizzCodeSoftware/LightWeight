@@ -7,7 +7,7 @@
 
     public class ConnectionStringCollection
     {
-        private readonly Dictionary<string, NamedConnectionString> _connectionStrings = new Dictionary<string, NamedConnectionString>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly Dictionary<string, NamedConnectionString> _connectionStrings = new(StringComparer.InvariantCultureIgnoreCase);
         public IEnumerable<NamedConnectionString> All => _connectionStrings.Values;
 
         public void LoadFromConfiguration(IConfiguration configuration, string sectionKey = "ConnectionStrings", IConfigurationSecretProtector secretProtector = null)

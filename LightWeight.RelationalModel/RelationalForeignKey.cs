@@ -13,7 +13,7 @@
         public RelationalTable TargetTable { get; }
         public IReadOnlyList<RelationalColumnPair> ColumnPairs => _columnPairs.AsReadOnly();
 
-        private readonly List<RelationalColumnPair> _columnPairs = new List<RelationalColumnPair>();
+        private readonly List<RelationalColumnPair> _columnPairs = new();
 
         internal RelationalForeignKey(RelationalTable sourceTable, RelationalTable targetTable)
         {

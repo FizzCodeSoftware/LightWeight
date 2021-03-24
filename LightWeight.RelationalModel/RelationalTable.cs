@@ -22,13 +22,13 @@
 
         public bool AnyPrimaryKeyColumnIsIdentity => _primaryKeyColumns.Any(x => x.IsIdentity);
 
-        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalColumn> _columns = new OrderedCaseInsensitiveStringKeyDictionary<RelationalColumn>();
-        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalColumn> _primaryKeyColumns = new OrderedCaseInsensitiveStringKeyDictionary<RelationalColumn>();
-        private readonly CaseInsensitiveStringKeyDictionary<List<RelationalColumn>> _columnsByFlags = new CaseInsensitiveStringKeyDictionary<List<RelationalColumn>>();
+        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalColumn> _columns = new();
+        private readonly OrderedCaseInsensitiveStringKeyDictionary<RelationalColumn> _primaryKeyColumns = new();
+        private readonly CaseInsensitiveStringKeyDictionary<List<RelationalColumn>> _columnsByFlags = new();
 
         private CaseInsensitiveStringKeyDictionary<string> _flags;
         private CaseInsensitiveStringKeyDictionary<AdditionalData> _additionalData;
-        private readonly List<RelationalForeignKey> _foreignKeys = new List<RelationalForeignKey>();
+        private readonly List<RelationalForeignKey> _foreignKeys = new();
 
         internal void Initialize(RelationalSchema schema, string name)
         {

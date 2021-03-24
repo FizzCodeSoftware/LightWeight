@@ -5,9 +5,9 @@
 
     public static class SqlEngineSemanticFormatter
     {
-        private static readonly Dictionary<string, SqlEngine> _sqlEngineByProviderName = new Dictionary<string, SqlEngine>(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Dictionary<string, ISqlEngineSemanticFormatter> _formattersByProviderName = new Dictionary<string, ISqlEngineSemanticFormatter>(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Dictionary<SqlEngine, ISqlEngineSemanticFormatter> _formattersBySqlEngine = new Dictionary<SqlEngine, ISqlEngineSemanticFormatter>();
+        private static readonly Dictionary<string, SqlEngine> _sqlEngineByProviderName = new(StringComparer.InvariantCultureIgnoreCase);
+        private static readonly Dictionary<string, ISqlEngineSemanticFormatter> _formattersByProviderName = new(StringComparer.InvariantCultureIgnoreCase);
+        private static readonly Dictionary<SqlEngine, ISqlEngineSemanticFormatter> _formattersBySqlEngine = new();
 
         static SqlEngineSemanticFormatter()
         {
