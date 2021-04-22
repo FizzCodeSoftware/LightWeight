@@ -3,14 +3,16 @@
     using System;
     using System.Transactions;
 
-    public class RequiredScopeUnitOfWork : IUnitOfWork
+    public class TransactionScopeUnitOfWork : IUnitOfWork
     {
         private TransactionScope _scope;
         private bool _disposed;
 
-        public RequiredScopeUnitOfWork()
+        public TransactionScopeUnitOfWork(TransactionScopeOption scopeOption = TransactionScopeOption.Required, TransactionScopeAsyncFlowOption asyncFlowOption = TransactionScopeAsyncFlowOption.Suppress, TransactionOptions? transactionOptions = null)
         {
-            _scope = new TransactionScope(TransactionScopeOption.Required);
+            _scope = transactionOptions != null
+                ? new TransactionScope(scopeOption, transactionOptions.Value, asyncFlowOption)
+                : new TransactionScope(scopeOption, asyncFlowOption);
         }
 
         public void Complete()
