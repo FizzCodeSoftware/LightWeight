@@ -52,7 +52,7 @@
                     continue;
 
                 var name = v.Substring(0, idx).ToUpperInvariant();
-                var value = v.Substring(idx + 1);
+                var value = v[(idx + 1)..];
                 switch (name)
                 {
                     case "SERVER":

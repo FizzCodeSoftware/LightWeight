@@ -12,7 +12,7 @@
 
         public IReadOnlyList<TItem> GetItemsAsReadonly()
         {
-            return _entriesOrdered.Select(x => x.Item).ToList().AsReadOnly();
+            return _entriesOrdered.ConvertAll(x => x.Item).AsReadOnly();
         }
 
         public int Count => _entries.Count;

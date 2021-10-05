@@ -112,7 +112,9 @@
             };
 
             Assert.AreEqual(2, dict.Count);
+#pragma warning disable CA1829 // Use Length/Count property instead of Count() when available
             Assert.AreEqual(2, dict.Count());
+#pragma warning restore CA1829 // Use Length/Count property instead of Count() when available
             Assert.IsTrue(dict.ContainsValue(17));
             Assert.IsTrue(dict.ContainsValue(21));
         }

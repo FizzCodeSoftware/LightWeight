@@ -115,7 +115,7 @@
                 ["y"] = 21
             };
 
-            Assert.AreEqual(2, dict.Count());
+            Assert.AreEqual(2, dict.Count);
             Assert.IsTrue(dict.First() == 17);
             Assert.IsTrue(dict.Skip(1).First() == 21);
             Assert.IsTrue(dict.Skip(2).FirstOrDefault() == default);
@@ -131,7 +131,7 @@
 
             dict.Insert("y", 21, 0);
 
-            Assert.AreEqual(2, dict.Count());
+            Assert.AreEqual(2, dict.Count);
             Assert.IsTrue(dict.First() == 21);
             Assert.IsTrue(dict.Skip(1).First() == 17);
             Assert.IsTrue(dict.Skip(2).FirstOrDefault() == default);
@@ -150,7 +150,7 @@
             Assert.AreEqual(false, dict.Insert("z", 1, 3));
             dict.Add("y", 90);
 
-            Assert.AreEqual(2, dict.Count());
+            Assert.AreEqual(2, dict.Count);
             Assert.IsTrue(dict.First() == 90);
             Assert.IsTrue(dict.Skip(1).First() == 17);
             Assert.IsTrue(dict.Skip(2).FirstOrDefault() == default);
