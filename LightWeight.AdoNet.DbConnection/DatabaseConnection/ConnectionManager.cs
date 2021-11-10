@@ -48,7 +48,7 @@
 
             if (SeparateConnectionsByThreadId)
             {
-                key += Thread.CurrentThread.ManagedThreadId.ToString("D", CultureInfo.InvariantCulture);
+                key += Environment.CurrentManagedThreadId.ToString("D", CultureInfo.InvariantCulture);
             }
             else
             {
