@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     public class SqlServerSemanticFormatter : ISqlEngineSemanticFormatter
@@ -11,9 +12,69 @@
 
         private static readonly Regex _regex = new(@" *(\[[^]]+\]|\w+)");
 
-        public string ChangeIdentifier(string identifier, string newIdentifier)
+        public string GetObjectIdentifier(string fullIdentifier)
         {
-            return ChangeIdentifierHelper.ChangeIdentifier(identifier, newIdentifier, '[', _regex, this);
+            if (fullIdentifier.Contains('.', StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (fullIdentifier.Contains('[', StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var matches = _regex.Matches(fullIdentifier);
+                    return matches[^1].Value;
+                }
+                else
+                {
+                    var groups = fullIdentifier.Split('.');
+                    return groups[^1];
+                }
+            }
+
+            return fullIdentifier;
+        }
+
+        public string ChangeObjectIdentifier(string fullIdentifier, string newObjectIdentifier)
+        {
+            if (fullIdentifier.Contains('[', StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (fullIdentifier.Contains('.', StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var sb = new StringBuilder();
+                    var matches = _regex.Matches(fullIdentifier);
+                    for (var i = 0; i < matches.Count - 1; i++)
+                    {
+                        sb.Append(matches[i].Value);
+                        sb.Append('.');
+                    }
+
+                    sb.Append(Escape(newObjectIdentifier));
+                    return sb.ToString();
+                }
+                else
+                {
+                    return Escape(newObjectIdentifier);
+                }
+            }
+
+            if (fullIdentifier.Contains('.', StringComparison.InvariantCultureIgnoreCase))
+            {
+                var sb = new StringBuilder();
+                var groups = fullIdentifier.Split('.');
+                for (var i = 0; i < groups.Length - 1; i++)
+                {
+                    sb.Append(groups[i]);
+                    sb.Append('.');
+                }
+
+                if (IsEscaped(groups[^1]))
+                    sb.Append(Escape(newObjectIdentifier));
+                else
+                    sb.Append(newObjectIdentifier);
+
+                return sb.ToString();
+            }
+            else
+            {
+                return newObjectIdentifier;
+            }
         }
 
         public string Escape(string dbObject, string schema = null)

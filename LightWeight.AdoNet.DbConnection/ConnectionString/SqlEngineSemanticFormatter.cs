@@ -52,9 +52,14 @@
             return GetFormatter(connectionString).GetKnownConnectionStringFields(connectionString);
         }
 
-        public static string ChangeIdentifier(this NamedConnectionString connectionString, string identifier, string newIdentifier)
+        public static string GetObjectIdentifier(this NamedConnectionString connectionString, string fullIdentifier)
         {
-            return GetFormatter(connectionString).ChangeIdentifier(identifier, newIdentifier);
+            return GetFormatter(connectionString).GetObjectIdentifier(fullIdentifier);
+        }
+
+        public static string ChangeObjectIdentifier(this NamedConnectionString connectionString, string fullIdentifier, string newObjectIdentifier)
+        {
+            return GetFormatter(connectionString).ChangeObjectIdentifier(fullIdentifier, newObjectIdentifier);
         }
 
         public static bool IsEscaped(this NamedConnectionString connectionString, string identifier)

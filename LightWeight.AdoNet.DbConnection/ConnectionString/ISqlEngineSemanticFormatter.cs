@@ -10,6 +10,7 @@
         string EscapeIdentifier(string identifier);
         string Unescape(string identifier);
 
-        string ChangeIdentifier(string identifier, string newIdentifier);
+        string ChangeObjectIdentifier(string fullIdentifier, string newObjectIdentifier);
+        string GetObjectIdentifier(string fullIdentifier);
     }
 }

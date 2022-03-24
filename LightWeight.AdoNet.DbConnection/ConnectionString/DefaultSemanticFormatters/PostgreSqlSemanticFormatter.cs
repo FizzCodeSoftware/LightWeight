@@ -8,9 +8,14 @@
         public string ProviderName => "Npgsql";
         public SqlEngine SqlEngine => SqlEngine.PostgreSql;
 
-        public string ChangeIdentifier(string identifier, string newIdentifier)
+        public string GetObjectIdentifier(string fullIdentifier)
         {
-            return newIdentifier;
+            return fullIdentifier;
+        }
+
+        public string ChangeObjectIdentifier(string fullIdentifier, string newObjectIdentifier)
+        {
+            return newObjectIdentifier;
         }
 
         public string Escape(string dbObject, string schema = null)
