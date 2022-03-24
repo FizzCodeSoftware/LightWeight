@@ -8,6 +8,11 @@
         public string ProviderName => "Oracle.ManagedDataAccess.Client";
         public SqlEngine SqlEngine => SqlEngine.OracleSql;
 
+        public string ChangeIdentifier(string identifier, string newIdentifier)
+        {
+            return newIdentifier;
+        }
+
         public string Escape(string dbObject, string schema = null)
         {
             if (!string.IsNullOrEmpty(schema))

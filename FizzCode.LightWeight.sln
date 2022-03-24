@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{9BB9529D-3AA4-406E-8104-FE6DB4293000}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,7 +24,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.MsTest", "Light
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.Configuration", "LightWeight.Configuration\LightWeight.Configuration.csproj", "{8D266A21-9BE2-4743-988D-927D7A797DB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightWeight.AdoNet.DbConnection", "LightWeight.AdoNet.DbConnection\LightWeight.AdoNet.DbConnection.csproj", "{5AC15DEF-B548-4F30-9E1D-C7035EFC669A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNet.DbConnection", "LightWeight.AdoNet.DbConnection\LightWeight.AdoNet.DbConnection.csproj", "{5AC15DEF-B548-4F30-9E1D-C7035EFC669A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNet.Tests", "Tests\LightWeight.AdoNet.Tests\LightWeight.AdoNet.Tests.csproj", "{E9822D42-4E1E-4656-8AF6-FB2B1777695D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +62,10 @@ Global
 		{5AC15DEF-B548-4F30-9E1D-C7035EFC669A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AC15DEF-B548-4F30-9E1D-C7035EFC669A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AC15DEF-B548-4F30-9E1D-C7035EFC669A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9822D42-4E1E-4656-8AF6-FB2B1777695D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9822D42-4E1E-4656-8AF6-FB2B1777695D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9822D42-4E1E-4656-8AF6-FB2B1777695D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9822D42-4E1E-4656-8AF6-FB2B1777695D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3C2996F0-025C-4D31-8600-43D3A5ECBE31} = {1F80E5F6-4CD6-4742-B944-802BCBBD200B}
 		{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4} = {1F80E5F6-4CD6-4742-B944-802BCBBD200B}
+		{E9822D42-4E1E-4656-8AF6-FB2B1777695D} = {1F80E5F6-4CD6-4742-B944-802BCBBD200B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B1A4546-5839-4F14-8E4D-8404CA122935}

@@ -52,6 +52,11 @@
             return GetFormatter(connectionString).GetKnownConnectionStringFields(connectionString);
         }
 
+        public static string ChangeIdentifier(this NamedConnectionString connectionString, string identifier, string newIdentifier)
+        {
+            return GetFormatter(connectionString).ChangeIdentifier(identifier, newIdentifier);
+        }
+
         public static bool IsEscaped(this NamedConnectionString connectionString, string identifier)
         {
             return GetFormatter(connectionString).IsEscaped(identifier);

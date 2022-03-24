@@ -2,11 +2,19 @@
 {
     using System;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     public class SqlServerSemanticFormatter : ISqlEngineSemanticFormatter
     {
         public string ProviderName => "Microsoft.Data.SqlClient";
         public SqlEngine SqlEngine => SqlEngine.MsSql;
+
+        private static readonly Regex _regex = new(@" *(\[[^]]+\]|\w+)");
+
+        public string ChangeIdentifier(string identifier, string newIdentifier)
+        {
+            return ChangeIdentifierHelper.ChangeIdentifier(identifier, newIdentifier, '[', _regex, this);
+        }
 
         public string Escape(string dbObject, string schema = null)
         {

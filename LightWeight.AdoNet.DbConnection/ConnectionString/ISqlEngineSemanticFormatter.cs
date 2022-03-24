@@ -9,5 +9,7 @@
         string Escape(string dbObject, string schema = null);
         string EscapeIdentifier(string identifier);
         string Unescape(string identifier);
+
+        string ChangeIdentifier(string identifier, string newIdentifier);
     }
 }
