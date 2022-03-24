@@ -17,6 +17,7 @@
             RegisterFormatter(new PostgreSqlSemanticFormatter());
             RegisterFormatter(new SqLiteSemanticFormatter());
             RegisterFormatter(new SqlServerSemanticFormatter());
+            RegisterFormatter(new LegacySqlServerSemanticFormatter());
         }
 
         public static void RegisterFormatter(ISqlEngineSemanticFormatter formatter)

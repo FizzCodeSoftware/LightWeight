@@ -3,9 +3,9 @@
     using System;
     using System.Linq;
 
-    public class SqlServerSemanticFormatter : ISqlEngineSemanticFormatter
+    public class LegacySqlServerSemanticFormatter : ISqlEngineSemanticFormatter
     {
-        public string ProviderName => "Microsoft.Data.SqlClient";
+        public string ProviderName => "System.Data.SqlClient";
         public SqlEngine SqlEngine => SqlEngine.MsSql;
 
         public string Escape(string dbObject, string schema = null)
@@ -67,11 +67,6 @@
                     case "USER ID":
                     case "UID":
                         result.UserId = value;
-                        break;
-                    case "ENCRYPT":
-                        result.Encrypt = string.Equals(value, "yes", StringComparison.InvariantCultureIgnoreCase)
-                            || string.Equals(value, "true", StringComparison.InvariantCultureIgnoreCase)
-                            || string.Equals(value, "1", StringComparison.InvariantCultureIgnoreCase);
                         break;
                     case "PORT":
                         if (int.TryParse(value, out var port))

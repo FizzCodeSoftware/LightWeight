@@ -7,5 +7,6 @@
         public string Database { get; set; }
         public string UserId { get; set; }
         public bool? IntegratedSecurity { get; set; }
+        public bool? Encrypt { get; set; }
     }
 }
