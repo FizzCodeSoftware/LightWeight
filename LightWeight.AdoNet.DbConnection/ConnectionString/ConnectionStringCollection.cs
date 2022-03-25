@@ -1,44 +1,43 @@
-﻿namespace FizzCode.LightWeight.AdoNet
+﻿namespace FizzCode.LightWeight.AdoNet;
+
+using System;
+using System.Collections.Generic;
+using FizzCode.LightWeight.Configuration;
+using Microsoft.Extensions.Configuration;
+
+public class ConnectionStringCollection
 {
-    using System;
-    using System.Collections.Generic;
-    using FizzCode.LightWeight.Configuration;
-    using Microsoft.Extensions.Configuration;
+    private readonly Dictionary<string, NamedConnectionString> _connectionStrings = new(StringComparer.InvariantCultureIgnoreCase);
+    public IEnumerable<NamedConnectionString> All => _connectionStrings.Values;
 
-    public class ConnectionStringCollection
+    public void LoadFromConfiguration(IConfiguration configuration, string sectionKey = "ConnectionStrings", IConfigurationSecretProtector secretProtector = null)
     {
-        private readonly Dictionary<string, NamedConnectionString> _connectionStrings = new(StringComparer.InvariantCultureIgnoreCase);
-        public IEnumerable<NamedConnectionString> All => _connectionStrings.Values;
+        var children = configuration
+            .GetSection(sectionKey)
+            .GetChildren();
 
-        public void LoadFromConfiguration(IConfiguration configuration, string sectionKey = "ConnectionStrings", IConfigurationSecretProtector secretProtector = null)
+        foreach (var child in children)
         {
-            var children = configuration
-                .GetSection(sectionKey)
-                .GetChildren();
+            var name = child.Key;
+            var providerName = ConfigurationReader.GetCurrentValue(configuration, child.Path, "ProviderName", null, secretProtector);
+            var connectionString = ConfigurationReader.GetCurrentValue(configuration, child.Path, "ConnectionString", null, secretProtector);
+            var version = ConfigurationReader.GetCurrentValue(configuration, child.Path, "Version", null, secretProtector);
 
-            foreach (var child in children)
-            {
-                var name = child.Key;
-                var providerName = ConfigurationReader.GetCurrentValue(configuration, child.Path, "ProviderName", null, secretProtector);
-                var connectionString = ConfigurationReader.GetCurrentValue(configuration, child.Path, "ConnectionString", null, secretProtector);
-                var version = ConfigurationReader.GetCurrentValue(configuration, child.Path, "Version", null, secretProtector);
-
-                Add(new NamedConnectionString(name, providerName, connectionString, version));
-            }
+            Add(new NamedConnectionString(name, providerName, connectionString, version));
         }
+    }
 
-        public void Add(NamedConnectionString connectionString)
-        {
-            _connectionStrings[connectionString.Name] = connectionString;
-        }
+    public void Add(NamedConnectionString connectionString)
+    {
+        _connectionStrings[connectionString.Name] = connectionString;
+    }
 
-        public NamedConnectionString this[string name]
+    public NamedConnectionString this[string name]
+    {
+        get
         {
-            get
-            {
-                _connectionStrings.TryGetValue(name, out var value);
-                return value;
-            }
+            _connectionStrings.TryGetValue(name, out var value);
+            return value;
         }
     }
 }

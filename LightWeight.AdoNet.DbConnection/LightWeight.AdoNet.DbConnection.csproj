@@ -9,7 +9,6 @@
     <Copyright>Copyright © 2019-2021 FizzCode Ltd.</Copyright>
     <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
-    <CodeAnalysisRuleSet>..\FizzCode.ruleset</CodeAnalysisRuleSet>
     <AssemblyName>FizzCode.LightWeight.AdoNet.DbConnection</AssemblyName>
     <RootNamespace>FizzCode.LightWeight.AdoNet.DbConnection</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

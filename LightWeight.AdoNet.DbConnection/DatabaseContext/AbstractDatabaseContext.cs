@@ -1,18 +1,17 @@
-﻿namespace FizzCode.LightWeight.AdoNet
+﻿namespace FizzCode.LightWeight.AdoNet;
+
+using System.Threading;
+
+public abstract class AbstractDatabaseContext : IDatabaseContext
 {
-    using System.Threading;
+    public ConnectionManager ConnectionManager { get; }
+    public CancellationToken CancellationToken { get; }
 
-    public abstract class AbstractDatabaseContext : IDatabaseContext
+    protected AbstractDatabaseContext(ConnectionManager connectionManager, CancellationToken cancellationToken)
     {
-        public ConnectionManager ConnectionManager { get; }
-        public CancellationToken CancellationToken { get; }
-
-        protected AbstractDatabaseContext(ConnectionManager connectionManager, CancellationToken cancellationToken)
-        {
-            ConnectionManager = connectionManager;
-            CancellationToken = cancellationToken;
-        }
-
-        public abstract IUnitOfWork NewUnitOfWork();
+        ConnectionManager = connectionManager;
+        CancellationToken = cancellationToken;
     }
+
+    public abstract IUnitOfWork NewUnitOfWork();
 }

@@ -1,37 +1,36 @@
-﻿namespace FizzCode.LightWeight.AdoNet
+﻿namespace FizzCode.LightWeight.AdoNet;
+
+using System.Diagnostics;
+using System.Globalization;
+
+[DebuggerDisplay("{Name}, {ProviderName}, {ConnectionString}")]
+public class NamedConnectionString
 {
-    using System.Diagnostics;
-    using System.Globalization;
+    public string Name { get; }
+    public string ProviderName { get; }
+    public string ConnectionString { get; }
+    public string Version { get; }
+    public SqlEngine SqlEngine { get; }
 
-    [DebuggerDisplay("{Name}, {ProviderName}, {ConnectionString}")]
-    public class NamedConnectionString
+    public NamedConnectionString(string name, string providerName, string connectionString, string version)
     {
-        public string Name { get; }
-        public string ProviderName { get; }
-        public string ConnectionString { get; }
-        public string Version { get; }
-        public SqlEngine SqlEngine { get; }
+        Name = name;
+        ProviderName = providerName;
+        ConnectionString = connectionString;
+        Version = version;
+        SqlEngine = SqlEngineSemanticFormatter.GetSqlEngineByProviderName(ProviderName);
+    }
 
-        public NamedConnectionString(string name, string providerName, string connectionString, string version)
-        {
-            Name = name;
-            ProviderName = providerName;
-            ConnectionString = connectionString;
-            Version = version;
-            SqlEngine = SqlEngineSemanticFormatter.GetSqlEngineByProviderName(ProviderName);
-        }
+    public string GetFriendlyProviderName()
+    {
+        if (SqlEngine != SqlEngine.Generic)
+            return SqlEngine.ToString();
 
-        public string GetFriendlyProviderName()
-        {
-            if (SqlEngine != SqlEngine.Generic)
-                return SqlEngine.ToString();
+        return ProviderName;
+    }
 
-            return ProviderName;
-        }
-
-        public override string ToString()
-        {
-            return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
-        }
+    public override string ToString()
+    {
+        return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
     }
 }

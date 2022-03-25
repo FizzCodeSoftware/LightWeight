@@ -1,80 +1,79 @@
-﻿namespace FizzCode.LightWeight.AdoNet
+﻿namespace FizzCode.LightWeight.AdoNet;
+
+using System;
+using System.Collections.Generic;
+
+public static class SqlEngineSemanticFormatter
 {
-    using System;
-    using System.Collections.Generic;
+    private static readonly Dictionary<string, SqlEngine> _sqlEngineByProviderName = new(StringComparer.InvariantCultureIgnoreCase);
+    private static readonly Dictionary<string, ISqlEngineSemanticFormatter> _formattersByProviderName = new(StringComparer.InvariantCultureIgnoreCase);
+    private static readonly Dictionary<SqlEngine, ISqlEngineSemanticFormatter> _formattersBySqlEngine = new();
 
-    public static class SqlEngineSemanticFormatter
+    static SqlEngineSemanticFormatter()
     {
-        private static readonly Dictionary<string, SqlEngine> _sqlEngineByProviderName = new(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Dictionary<string, ISqlEngineSemanticFormatter> _formattersByProviderName = new(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Dictionary<SqlEngine, ISqlEngineSemanticFormatter> _formattersBySqlEngine = new();
+        RegisterFormatter(new GenericSemanticFormatter());
+        RegisterFormatter(new MySqlSemanticFormatter());
+        RegisterFormatter(new OracleSemanticFormatter());
+        RegisterFormatter(new PostgreSqlSemanticFormatter());
+        RegisterFormatter(new SqLiteSemanticFormatter());
+        RegisterFormatter(new SqlServerSemanticFormatter());
+        RegisterFormatter(new LegacySqlServerSemanticFormatter());
+    }
 
-        static SqlEngineSemanticFormatter()
+    public static void RegisterFormatter(ISqlEngineSemanticFormatter formatter)
+    {
+        if (formatter.ProviderName != null)
         {
-            RegisterFormatter(new GenericSemanticFormatter());
-            RegisterFormatter(new MySqlSemanticFormatter());
-            RegisterFormatter(new OracleSemanticFormatter());
-            RegisterFormatter(new PostgreSqlSemanticFormatter());
-            RegisterFormatter(new SqLiteSemanticFormatter());
-            RegisterFormatter(new SqlServerSemanticFormatter());
-            RegisterFormatter(new LegacySqlServerSemanticFormatter());
+            _sqlEngineByProviderName[formatter.ProviderName] = formatter.SqlEngine;
+            _formattersByProviderName[formatter.ProviderName] = formatter;
         }
 
-        public static void RegisterFormatter(ISqlEngineSemanticFormatter formatter)
-        {
-            if (formatter.ProviderName != null)
-            {
-                _sqlEngineByProviderName[formatter.ProviderName] = formatter.SqlEngine;
-                _formattersByProviderName[formatter.ProviderName] = formatter;
-            }
+        _formattersBySqlEngine[formatter.SqlEngine] = formatter;
+    }
 
-            _formattersBySqlEngine[formatter.SqlEngine] = formatter;
-        }
+    public static SqlEngine GetSqlEngineByProviderName(string providerName)
+    {
+        if (_sqlEngineByProviderName.TryGetValue(providerName, out var sqlEngine))
+            return sqlEngine;
 
-        public static SqlEngine GetSqlEngineByProviderName(string providerName)
-        {
-            if (_sqlEngineByProviderName.TryGetValue(providerName, out var sqlEngine))
-                return sqlEngine;
+        return SqlEngine.Generic;
+    }
 
-            return SqlEngine.Generic;
-        }
+    public static ISqlEngineSemanticFormatter GetFormatter(NamedConnectionString connectionString)
+    {
+        if (_formattersByProviderName.TryGetValue(connectionString.ProviderName, out var formatter))
+            return formatter;
 
-        public static ISqlEngineSemanticFormatter GetFormatter(NamedConnectionString connectionString)
-        {
-            if (_formattersByProviderName.TryGetValue(connectionString.ProviderName, out var formatter))
-                return formatter;
+        return _formattersBySqlEngine[SqlEngine.Generic];
+    }
 
-            return _formattersBySqlEngine[SqlEngine.Generic];
-        }
+    public static ConnectionStringFields GetKnownConnectionStringFields(this NamedConnectionString connectionString)
+    {
+        return GetFormatter(connectionString).GetKnownConnectionStringFields(connectionString);
+    }
 
-        public static ConnectionStringFields GetKnownConnectionStringFields(this NamedConnectionString connectionString)
-        {
-            return GetFormatter(connectionString).GetKnownConnectionStringFields(connectionString);
-        }
+    public static string GetObjectIdentifier(this NamedConnectionString connectionString, string fullIdentifier)
+    {
+        return GetFormatter(connectionString).GetObjectIdentifier(fullIdentifier);
+    }
 
-        public static string GetObjectIdentifier(this NamedConnectionString connectionString, string fullIdentifier)
-        {
-            return GetFormatter(connectionString).GetObjectIdentifier(fullIdentifier);
-        }
+    public static string ChangeObjectIdentifier(this NamedConnectionString connectionString, string fullIdentifier, string newObjectIdentifier)
+    {
+        return GetFormatter(connectionString).ChangeObjectIdentifier(fullIdentifier, newObjectIdentifier);
+    }
 
-        public static string ChangeObjectIdentifier(this NamedConnectionString connectionString, string fullIdentifier, string newObjectIdentifier)
-        {
-            return GetFormatter(connectionString).ChangeObjectIdentifier(fullIdentifier, newObjectIdentifier);
-        }
+    public static bool IsEscaped(this NamedConnectionString connectionString, string identifier)
+    {
+        return GetFormatter(connectionString).IsEscaped(identifier);
+    }
 
-        public static bool IsEscaped(this NamedConnectionString connectionString, string identifier)
-        {
-            return GetFormatter(connectionString).IsEscaped(identifier);
-        }
+    public static string Escape(this NamedConnectionString connectionString, string dbObject, string schema = null)
+    {
+        return GetFormatter(connectionString).Escape(dbObject, schema);
+    }
 
-        public static string Escape(this NamedConnectionString connectionString, string dbObject, string schema = null)
-        {
-            return GetFormatter(connectionString).Escape(dbObject, schema);
-        }
-
-        public static string Unescape(this NamedConnectionString connectionString, string identifier)
-        {
-            return GetFormatter(connectionString).Unescape(identifier);
-        }
+    public static string Unescape(this NamedConnectionString connectionString, string identifier)
+    {
+        return GetFormatter(connectionString).Unescape(identifier);
     }
 }

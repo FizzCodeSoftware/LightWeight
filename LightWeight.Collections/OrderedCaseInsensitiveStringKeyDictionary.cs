@@ -1,101 +1,100 @@
-﻿namespace FizzCode.LightWeight.Collections
+﻿namespace FizzCode.LightWeight.Collections;
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+public class OrderedCaseInsensitiveStringKeyDictionary<TItem> : IEnumerable<TItem>
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
+    private readonly List<Entry> _entriesOrdered = new();
+    private readonly Dictionary<string, Entry> _entries = new(StringComparer.OrdinalIgnoreCase);
 
-    public class OrderedCaseInsensitiveStringKeyDictionary<TItem> : IEnumerable<TItem>
+    public IReadOnlyList<TItem> GetItemsAsReadonly()
     {
-        private readonly List<Entry> _entriesOrdered = new();
-        private readonly Dictionary<string, Entry> _entries = new(StringComparer.OrdinalIgnoreCase);
+        return _entriesOrdered.ConvertAll(x => x.Item).AsReadOnly();
+    }
 
-        public IReadOnlyList<TItem> GetItemsAsReadonly()
-        {
-            return _entriesOrdered.ConvertAll(x => x.Item).AsReadOnly();
-        }
+    public int Count => _entries.Count;
 
-        public int Count => _entries.Count;
-
-        public TItem this[string key]
-        {
-            get
-            {
-                if (_entries.TryGetValue(key, out var entry))
-                    return entry.Item;
-
-                return default;
-            }
-            set => Add(key, value);
-        }
-
-        public void Clear()
-        {
-            _entriesOrdered.Clear();
-            _entries.Clear();
-        }
-
-        public void Add(string key, TItem item)
+    public TItem this[string key]
+    {
+        get
         {
             if (_entries.TryGetValue(key, out var entry))
-            {
-                entry.Item = item;
-            }
-            else
-            {
-                entry = new Entry()
-                {
-                    Key = key,
-                    Item = item,
-                };
+                return entry.Item;
 
-                _entriesOrdered.Add(entry);
-                _entries[key] = entry;
-            }
+            return default;
         }
+        set => Add(key, value);
+    }
 
-        public bool Insert(string key, TItem item, int index)
+    public void Clear()
+    {
+        _entriesOrdered.Clear();
+        _entries.Clear();
+    }
+
+    public void Add(string key, TItem item)
+    {
+        if (_entries.TryGetValue(key, out var entry))
         {
-            if (_entries.ContainsKey(key))
-                return false;
-
-            if (index < 0 || index > _entriesOrdered.Count)
-                return false;
-
-            var entry = new Entry()
+            entry.Item = item;
+        }
+        else
+        {
+            entry = new Entry()
             {
                 Key = key,
                 Item = item,
             };
 
-            _entriesOrdered.Insert(index, entry);
+            _entriesOrdered.Add(entry);
             _entries[key] = entry;
-            return true;
         }
+    }
 
-        public void Remove(string key)
-        {
-            if (_entries.Remove(key))
-            {
-                var index = _entriesOrdered.FindIndex(x => _entries.Comparer.Equals(x.Key, key));
-                _entriesOrdered.RemoveAt(index);
-            }
-        }
+    public bool Insert(string key, TItem item, int index)
+    {
+        if (_entries.ContainsKey(key))
+            return false;
 
-        public IEnumerator<TItem> GetEnumerator()
-        {
-            return _entriesOrdered.Select(x => x.Item).GetEnumerator();
-        }
+        if (index < 0 || index > _entriesOrdered.Count)
+            return false;
 
-        IEnumerator IEnumerable.GetEnumerator()
+        var entry = new Entry()
         {
-            return _entriesOrdered.Select(x => x.Item).GetEnumerator();
-        }
+            Key = key,
+            Item = item,
+        };
 
-        private class Entry
+        _entriesOrdered.Insert(index, entry);
+        _entries[key] = entry;
+        return true;
+    }
+
+    public void Remove(string key)
+    {
+        if (_entries.Remove(key))
         {
-            public string Key { get; set; }
-            public TItem Item { get; set; }
+            var index = _entriesOrdered.FindIndex(x => _entries.Comparer.Equals(x.Key, key));
+            _entriesOrdered.RemoveAt(index);
         }
+    }
+
+    public IEnumerator<TItem> GetEnumerator()
+    {
+        return _entriesOrdered.Select(x => x.Item).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return _entriesOrdered.Select(x => x.Item).GetEnumerator();
+    }
+
+    private class Entry
+    {
+        public string Key { get; set; }
+        public TItem Item { get; set; }
     }
 }

@@ -1,23 +1,22 @@
-﻿namespace FizzCode.LightWeight.AdoNet
+﻿namespace FizzCode.LightWeight.AdoNet;
+
+using System.Data;
+using System.Transactions;
+
+public class DatabaseConnection
 {
-    using System.Data;
-    using System.Transactions;
+    public ConnectionManager Manager { get; init; }
+    public string Key { get; init; }
+    public NamedConnectionString ConnectionString { get; init; }
+    public IDbConnection Connection { get; init; }
+    public Transaction TransactionWhenCreated { get; set; }
+    public object Lock { get; set; } = new object();
 
-    public class DatabaseConnection
+    public int ReferenceCount { get; internal set; }
+    public bool Failed { get; internal set; }
+
+    public void SetFailed()
     {
-        public ConnectionManager Manager { get; init; }
-        public string Key { get; init; }
-        public NamedConnectionString ConnectionString { get; init; }
-        public IDbConnection Connection { get; init; }
-        public Transaction TransactionWhenCreated { get; set; }
-        public object Lock { get; set; } = new object();
-
-        public int ReferenceCount { get; internal set; }
-        public bool Failed { get; internal set; }
-
-        public void SetFailed()
-        {
-            Manager?.ConnectionFailed(this);
-        }
+        Manager?.ConnectionFailed(this);
     }
 }

@@ -1,12 +1,11 @@
-﻿namespace FizzCode.LightWeight.Configuration
+﻿namespace FizzCode.LightWeight.Configuration;
+
+using Microsoft.Extensions.Configuration;
+
+public interface IConfigurationSecretProtector
 {
-    using Microsoft.Extensions.Configuration;
+    bool Init(IConfigurationSection configurationSection);
 
-    public interface IConfigurationSecretProtector
-    {
-        bool Init(IConfigurationSection configurationSection);
-
-        string Encrypt(string value);
-        string Decrypt(string value);
-    }
+    string Encrypt(string value);
+    string Decrypt(string value);
 }

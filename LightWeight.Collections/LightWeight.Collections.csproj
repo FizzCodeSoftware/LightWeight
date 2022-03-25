@@ -9,7 +9,6 @@
     <Copyright>Copyright © 2019-2021 FizzCode Ltd.</Copyright>
     <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
-    <CodeAnalysisRuleSet>..\FizzCode.ruleset</CodeAnalysisRuleSet>
     <AssemblyName>FizzCode.LightWeight.Collections</AssemblyName>
     <RootNamespace>FizzCode.LightWeight.Collections</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

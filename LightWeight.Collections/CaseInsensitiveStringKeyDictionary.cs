@@ -1,66 +1,65 @@
-﻿namespace FizzCode.LightWeight.Collections
+﻿namespace FizzCode.LightWeight.Collections;
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+public class CaseInsensitiveStringKeyDictionary<T> : IEnumerable<KeyValuePair<string, T>>
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
+    public IEnumerable<T> Values => _items.Values;
 
-    public class CaseInsensitiveStringKeyDictionary<T> : IEnumerable<KeyValuePair<string, T>>
+    private readonly Dictionary<string, T> _items = new(StringComparer.OrdinalIgnoreCase);
+
+    public IReadOnlyList<T> GetItemsAsReadonly()
     {
-        public IEnumerable<T> Values => _items.Values;
+        return _items.Values.ToList().AsReadOnly();
+    }
 
-        private readonly Dictionary<string, T> _items = new(StringComparer.OrdinalIgnoreCase);
+    public int Count => _items.Count;
 
-        public IReadOnlyList<T> GetItemsAsReadonly()
+    public T this[string key]
+    {
+        get
         {
-            return _items.Values.ToList().AsReadOnly();
+            _items.TryGetValue(key, out var item);
+            return item;
         }
+        set => Add(key, value);
+    }
 
-        public int Count => _items.Count;
+    public bool ContainsKey(string key)
+    {
+        return _items.ContainsKey(key);
+    }
 
-        public T this[string key]
-        {
-            get
-            {
-                _items.TryGetValue(key, out var item);
-                return item;
-            }
-            set => Add(key, value);
-        }
+    public bool ContainsValue(T value)
+    {
+        return _items.ContainsValue(value);
+    }
 
-        public bool ContainsKey(string key)
-        {
-            return _items.ContainsKey(key);
-        }
+    public void Add(string key, T value)
+    {
+        _items[key] = value;
+    }
 
-        public bool ContainsValue(T value)
-        {
-            return _items.ContainsValue(value);
-        }
+    public void Remove(string key)
+    {
+        _items.Remove(key);
+    }
 
-        public void Add(string key, T value)
-        {
-            _items[key] = value;
-        }
+    public void Clear()
+    {
+        _items.Clear();
+    }
 
-        public void Remove(string key)
-        {
-            _items.Remove(key);
-        }
+    public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
+    {
+        return _items.GetEnumerator();
+    }
 
-        public void Clear()
-        {
-            _items.Clear();
-        }
-
-        public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return _items.GetEnumerator();
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace FizzCode.LightWeight.AdoNet
-{
-    using System.Threading;
+﻿namespace FizzCode.LightWeight.AdoNet;
 
-    public interface IDatabaseContext
-    {
-        public ConnectionManager ConnectionManager { get; }
-        public CancellationToken CancellationToken { get; }
-        public IUnitOfWork NewUnitOfWork();
-    }
+using System.Threading;
+
+public interface IDatabaseContext
+{
+    public ConnectionManager ConnectionManager { get; }
+    public CancellationToken CancellationToken { get; }
+    public IUnitOfWork NewUnitOfWork();
 }

@@ -1,31 +1,30 @@
-﻿namespace FizzCode.LightWeight.AdoNet
+﻿namespace FizzCode.LightWeight.AdoNet;
+
+using System;
+
+public class DisposableDatabaseConnection : DatabaseConnection, IDisposable
 {
-    using System;
+    private bool _disposed;
 
-    public class DisposableDatabaseConnection : DatabaseConnection, IDisposable
+    protected virtual void Dispose(bool disposing)
     {
-        private bool _disposed;
+        if (_disposed)
+            return;
 
-        protected virtual void Dispose(bool disposing)
+        if (disposing)
         {
-            if (_disposed)
-                return;
-
-            if (disposing)
-            {
-                Manager.ReleaseConnection(this);
-            }
-
-            if (ReferenceCount == 0)
-            {
-                _disposed = true;
-            }
+            Manager.ReleaseConnection(this);
         }
 
-        public void Dispose()
+        if (ReferenceCount == 0)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _disposed = true;
         }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

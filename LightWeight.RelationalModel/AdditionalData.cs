@@ -1,17 +1,16 @@
-﻿namespace FizzCode.LightWeight.RelationalModel
+﻿namespace FizzCode.LightWeight.RelationalModel;
+
+using System.Diagnostics;
+
+[DebuggerDisplay("{Key} = {Value}")]
+public class AdditionalData
 {
-    using System.Diagnostics;
+    public string Key { get; }
+    public object Value { get; }
 
-    [DebuggerDisplay("{Key} = {Value}")]
-    public class AdditionalData
+    internal AdditionalData(string key, object value)
     {
-        public string Key { get; }
-        public object Value { get; }
-
-        internal AdditionalData(string key, object value)
-        {
-            Key = key;
-            Value = value;
-        }
+        Key = key;
+        Value = value;
     }
 }

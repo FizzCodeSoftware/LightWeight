@@ -1,17 +1,16 @@
-﻿namespace FizzCode.LightWeight.RelationalModel
+﻿namespace FizzCode.LightWeight.RelationalModel;
+
+using System;
+
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+public class SingleColumnForeignKeyAttribute : Attribute
 {
-    using System;
+    public Type TargetTableType { get; }
+    public string TargetColumnName { get; }
 
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class SingleColumnForeignKeyAttribute : Attribute
+    public SingleColumnForeignKeyAttribute(Type targetTableType, string targetColumnName)
     {
-        public Type TargetTableType { get; }
-        public string TargetColumnName { get; }
-
-        public SingleColumnForeignKeyAttribute(Type targetTableType, string targetColumnName)
-        {
-            TargetTableType = targetTableType;
-            TargetColumnName = targetColumnName;
-        }
+        TargetTableType = targetTableType;
+        TargetColumnName = targetColumnName;
     }
 }

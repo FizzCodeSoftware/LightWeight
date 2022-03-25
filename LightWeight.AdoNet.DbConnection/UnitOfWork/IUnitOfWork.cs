@@ -1,9 +1,8 @@
-﻿namespace FizzCode.LightWeight.AdoNet
-{
-    using System;
+﻿namespace FizzCode.LightWeight.AdoNet;
 
-    public interface IUnitOfWork : IDisposable
-    {
-        void Complete();
-    }
+using System;
+
+public interface IUnitOfWork : IDisposable
+{
+    void Complete();
 }

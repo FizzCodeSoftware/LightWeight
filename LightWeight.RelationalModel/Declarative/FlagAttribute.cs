@@ -1,17 +1,16 @@
-﻿namespace FizzCode.LightWeight.RelationalModel
+﻿namespace FizzCode.LightWeight.RelationalModel;
+
+using System;
+
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = true)]
+public class FlagAttribute : Attribute
 {
-    using System;
+    public string Name { get; }
+    public bool Value { get; }
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = true)]
-    public class FlagAttribute : Attribute
+    public FlagAttribute(string name, bool value)
     {
-        public string Name { get; }
-        public bool Value { get; }
-
-        public FlagAttribute(string name, bool value)
-        {
-            Name = name;
-            Value = value;
-        }
+        Name = name;
+        Value = value;
     }
 }
