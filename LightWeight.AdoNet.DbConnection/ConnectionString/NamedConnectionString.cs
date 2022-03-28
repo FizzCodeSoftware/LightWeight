@@ -1,8 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System.Diagnostics;
-using System.Globalization;
-
 [DebuggerDisplay("{Name}, {ProviderName}, {ConnectionString}")]
 public class NamedConnectionString
 {

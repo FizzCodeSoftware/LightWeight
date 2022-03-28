@@ -1,10 +1,6 @@
-﻿namespace FizzCode.LightWeight.RelationalModel;
+﻿using System.Reflection;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using FizzCode.LightWeight.Collections;
+namespace FizzCode.LightWeight.RelationalModel;
 
 public class RelationalModel
 {

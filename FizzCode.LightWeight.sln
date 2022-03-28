@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.Collections", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1F80E5F6-4CD6-4742-B944-802BCBBD200B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.Collections.Tests", "Tests\LightWeight.Collections.Tests\LightWeight.Collections.Tests.csproj", "{3C2996F0-025C-4D31-8600-43D3A5ECBE31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.CollectionTests", "Tests\LightWeight.Collections.Tests\LightWeight.CollectionTests.csproj", "{3C2996F0-025C-4D31-8600-43D3A5ECBE31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.RelationalModel.Tests", "Tests\LightWeight.RelationalModel.Tests\LightWeight.RelationalModel.Tests.csproj", "{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.RelationalModelTests", "Tests\LightWeight.RelationalModel.Tests\LightWeight.RelationalModelTests.csproj", "{A3685C43-F13B-49BB-AFFE-A2EEEF92E1E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.MsTest", "LightWeight.MsTest\LightWeight.MsTest.csproj", "{184D4813-5344-4A88-B20C-20E7CB95033C}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.Configuration",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNet.DbConnection", "LightWeight.AdoNet.DbConnection\LightWeight.AdoNet.DbConnection.csproj", "{5AC15DEF-B548-4F30-9E1D-C7035EFC669A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNet.Tests", "Tests\LightWeight.AdoNet.Tests\LightWeight.AdoNet.Tests.csproj", "{E9822D42-4E1E-4656-8AF6-FB2B1777695D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNetTests", "Tests\LightWeight.AdoNet.Tests\LightWeight.AdoNetTests.csproj", "{E9822D42-4E1E-4656-8AF6-FB2B1777695D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

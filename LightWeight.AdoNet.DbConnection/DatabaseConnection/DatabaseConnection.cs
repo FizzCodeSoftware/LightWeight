@@ -1,8 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System.Data;
-using System.Transactions;
-
 public class DatabaseConnection
 {
     public ConnectionManager Manager { get; init; }

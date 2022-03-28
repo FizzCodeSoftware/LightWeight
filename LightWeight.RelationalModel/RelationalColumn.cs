@@ -1,10 +1,5 @@
 ﻿namespace FizzCode.LightWeight.RelationalModel;
 
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using FizzCode.LightWeight.Collections;
-
 [DebuggerDisplay("{TableQualifiedName}")]
 public class RelationalColumn
 {

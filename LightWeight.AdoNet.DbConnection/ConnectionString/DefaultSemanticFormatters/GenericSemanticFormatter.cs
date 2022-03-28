@@ -1,8 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System;
-using System.Linq;
-
 public class GenericSemanticFormatter : ISqlEngineSemanticFormatter
 {
     public string ProviderName => null;

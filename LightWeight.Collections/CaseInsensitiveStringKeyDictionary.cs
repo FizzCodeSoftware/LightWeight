@@ -1,10 +1,5 @@
 ﻿namespace FizzCode.LightWeight.Collections;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
 public class CaseInsensitiveStringKeyDictionary<T> : IEnumerable<KeyValuePair<string, T>>
 {
     public IEnumerable<T> Values => _items.Values;

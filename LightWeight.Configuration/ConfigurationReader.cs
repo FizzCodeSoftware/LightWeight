@@ -1,8 +1,5 @@
 ﻿namespace FizzCode.LightWeight.Configuration;
 
-using System;
-using Microsoft.Extensions.Configuration;
-
 public static class ConfigurationReader
 {
     public static T GetCurrentValue<T>(IConfiguration configuration, string section, string key, T defaultValue)

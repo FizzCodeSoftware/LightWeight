@@ -1,8 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System;
-using System.Transactions;
-
 public class TransactionScopeUnitOfWork : IUnitOfWork
 {
     private TransactionScope _scope;

@@ -1,8 +1,5 @@
 ﻿namespace FizzCode.LightWeight.Configuration;
 
-using System;
-using Microsoft.Extensions.Configuration;
-
 public static class ConfigurationLoader
 {
     public static IConfigurationRoot LoadFromJsonFile(string fileName, bool optional = false)

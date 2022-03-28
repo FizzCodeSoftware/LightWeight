@@ -1,7 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System.Threading;
-
 public abstract class AbstractDatabaseContext : IDatabaseContext
 {
     public ConnectionManager ConnectionManager { get; }

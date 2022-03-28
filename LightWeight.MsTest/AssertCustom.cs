@@ -1,10 +1,5 @@
 ﻿namespace FizzCode.LightWeight.MsTest;
 
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 public static class AssertCustom
 {
     /// <summary>

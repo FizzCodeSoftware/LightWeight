@@ -1,7 +1,5 @@
 ﻿namespace FizzCode.LightWeight.RelationalModel;
 
-using System.Diagnostics;
-
 [DebuggerDisplay("{Key} = {Value}")]
 public class AdditionalData
 {

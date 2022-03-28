@@ -1,8 +1,4 @@
-﻿namespace LightWeight.Collections.Tests;
-
-using System.Linq;
-using FizzCode.LightWeight.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace LightWeight.CollectionTests;
 
 [TestClass]
 public class CaseInsensitiveStringKeyDictionaryTests

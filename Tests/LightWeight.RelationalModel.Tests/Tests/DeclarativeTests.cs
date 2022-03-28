@@ -1,7 +1,4 @@
-﻿namespace LightWeight.RelationalModel.Tests;
-
-using FizzCode.LightWeight.RelationalModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace LightWeight.RelationalModelTests;
 
 [TestClass]
 public class DeclarativeTests

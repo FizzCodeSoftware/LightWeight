@@ -1,7 +1,4 @@
 ﻿// these extension methods are global, namespace shouldn't be used
-
-using FizzCode.LightWeight.AdoNet;
-
 #pragma warning disable CA1050 // Declare types in namespaces
 #pragma warning disable RCS1110 // Declare type inside namespace.
 public static class SqlEngineSemanticFormatterExtensions

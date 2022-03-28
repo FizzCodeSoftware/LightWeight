@@ -1,8 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System;
-using System.Collections.Generic;
-
 public static class SqlEngineSemanticFormatter
 {
     private static readonly Dictionary<string, SqlEngine> _sqlEngineByProviderName = new(StringComparer.InvariantCultureIgnoreCase);

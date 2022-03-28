@@ -1,9 +1,7 @@
-﻿namespace FizzCode.LightWeight.AdoNet;
-
-using System;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
+
+namespace FizzCode.LightWeight.AdoNet;
 
 public class LegacySqlServerSemanticFormatter : ISqlEngineSemanticFormatter
 {

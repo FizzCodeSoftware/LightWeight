@@ -1,7 +1,4 @@
-﻿namespace LightWeight.AdoNet.Tests;
-
-using FizzCode.LightWeight.AdoNet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace LightWeight.AdoNetTests;
 
 [TestClass]
 public class SqlServerSemanticFormatterTests

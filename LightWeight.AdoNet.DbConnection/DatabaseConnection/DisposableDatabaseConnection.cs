@@ -1,7 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System;
-
 public class DisposableDatabaseConnection : DatabaseConnection, IDisposable
 {
     private bool _disposed;

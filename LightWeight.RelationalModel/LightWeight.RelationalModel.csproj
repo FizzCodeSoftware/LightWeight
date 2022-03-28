@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <PackageId>FizzCode.LightWeight.RelationalModel</PackageId>
+    <PackageId>FizzCode.LightWeight</PackageId>
     <Authors>FizzCode Ltd.</Authors>
     <Product>LightWeight libraries for .NET</Product>
     <Description>A lightweight relational model</Description>

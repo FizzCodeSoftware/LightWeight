@@ -1,10 +1,5 @@
 ﻿namespace FizzCode.LightWeight.Collections;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
 public class OrderedCaseInsensitiveStringKeyDictionary<TItem> : IEnumerable<TItem>
 {
     private readonly List<Entry> _entriesOrdered = new();

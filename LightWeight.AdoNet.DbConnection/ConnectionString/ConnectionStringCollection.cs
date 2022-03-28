@@ -1,10 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System;
-using System.Collections.Generic;
-using FizzCode.LightWeight.Configuration;
-using Microsoft.Extensions.Configuration;
-
 public class ConnectionStringCollection
 {
     private readonly Dictionary<string, NamedConnectionString> _connectionStrings = new(StringComparer.InvariantCultureIgnoreCase);

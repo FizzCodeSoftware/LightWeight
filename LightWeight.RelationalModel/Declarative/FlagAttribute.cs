@@ -1,7 +1,5 @@
 ﻿namespace FizzCode.LightWeight.RelationalModel;
 
-using System;
-
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = true)]
 public class FlagAttribute : Attribute
 {

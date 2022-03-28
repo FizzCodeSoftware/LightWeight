@@ -1,11 +1,6 @@
-﻿namespace FizzCode.LightWeight.RelationalModel;
+﻿using System.IO;
 
-using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-
+namespace FizzCode.LightWeight.RelationalModel;
 public static class RelationalModelToCSharpConverter
 {
     public static void GenerateCSharpFile(string fileName, RelationalModel model, string @namespace, string modelClassName, bool partialClass = false)

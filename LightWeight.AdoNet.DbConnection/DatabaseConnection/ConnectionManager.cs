@@ -1,13 +1,5 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Globalization;
-using System.Threading;
-using System.Transactions;
-
 public delegate void OnConnectionOpening(NamedConnectionString connectionString, IDbConnection connection);
 public delegate void OnConnectionOpened(NamedConnectionString connectionString, IDbConnection connection, int retryCount);
 public delegate void OnConnectionOpenError(NamedConnectionString connectionString, IDbConnection connection, int retryCount, Exception ex);
