@@ -35,8 +35,7 @@ public class RelationalModel
 
             schemaProperty.SetValue(this, schema);
 
-            if (DefaultSchema == null)
-                DefaultSchema = schema;
+            DefaultSchema ??= schema;
 
             foreach (var tableProperty in schemaProperty.PropertyType.GetProperties())
             {

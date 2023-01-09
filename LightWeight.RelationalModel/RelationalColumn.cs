@@ -34,8 +34,7 @@ public class RelationalColumn
     {
         if (value)
         {
-            if (_flags == null)
-                _flags = new CaseInsensitiveStringKeyDictionary<string>();
+            _flags ??= new CaseInsensitiveStringKeyDictionary<string>();
 
             if (!_flags.ContainsKey(flag))
             {
@@ -66,8 +65,7 @@ public class RelationalColumn
 
     public void SetAdditionalData(string key, object value)
     {
-        if (_additionalData == null)
-            _additionalData = new CaseInsensitiveStringKeyDictionary<AdditionalData>();
+        _additionalData ??= new CaseInsensitiveStringKeyDictionary<AdditionalData>();
 
         _additionalData[key] = new AdditionalData(key, value);
     }

@@ -282,10 +282,7 @@ public class ConnectionManager
             conn = Activator.CreateInstance(connectionType) as IDbConnection;
         }
 
-        if (conn == null)
-        {
-            conn = DbProviderFactories.GetFactory(connectionString.ProviderName).CreateConnection();
-        }
+        conn ??= DbProviderFactories.GetFactory(connectionString.ProviderName).CreateConnection();
 
         conn.ConnectionString = connectionString.ConnectionString;
         conn.Open();
