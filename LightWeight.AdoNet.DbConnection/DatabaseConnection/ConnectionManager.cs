@@ -73,11 +73,8 @@ public class ConnectionManager
                     {
                         try
                         {
-                            var factory = DbProviderFactories.GetFactory(connectionString.ProviderName);
-                            if (factory == null)
-                            {
-                                throw new Exception("unregistered DbProviderFactory: " + connectionString.ProviderName);
-                            }
+                            var factory = DbProviderFactories.GetFactory(connectionString.ProviderName)
+                                ?? throw new Exception("unregistered DbProviderFactory: " + connectionString.ProviderName);
 
                             conn = factory.CreateConnection();
                         }
@@ -148,11 +145,8 @@ public class ConnectionManager
                 {
                     try
                     {
-                        var factory = DbProviderFactories.GetFactory(connectionString.ProviderName);
-                        if (factory == null)
-                        {
-                            throw new Exception("unregistered DbProviderFactory: " + connectionString.ProviderName);
-                        }
+                        var factory = DbProviderFactories.GetFactory(connectionString.ProviderName)
+                            ?? throw new Exception("unregistered DbProviderFactory: " + connectionString.ProviderName);
 
                         conn = factory.CreateConnection();
                     }
