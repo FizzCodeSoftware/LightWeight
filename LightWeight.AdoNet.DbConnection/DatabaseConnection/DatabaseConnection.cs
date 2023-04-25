@@ -2,12 +2,12 @@
 
 public class DatabaseConnection
 {
-    public ConnectionManager Manager { get; init; }
-    public string Key { get; init; }
-    public NamedConnectionString ConnectionString { get; init; }
-    public IDbConnection Connection { get; init; }
-    public Transaction TransactionWhenCreated { get; set; }
-    public object Lock { get; set; } = new object();
+    public ConnectionManager Manager { get; internal init; }
+    public string Key { get; internal init; }
+    public NamedConnectionString ConnectionString { get; internal init; }
+    public IDbConnection Connection { get; internal init; }
+    public Transaction TransactionWhenCreated { get; internal init; }
+    public object Lock { get; } = new object();
 
     public int ReferenceCount { get; internal set; }
     public bool Failed { get; internal set; }
