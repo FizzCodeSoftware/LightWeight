@@ -47,7 +47,7 @@ public class ConnectionManager
             key += "-";
         }
 
-        Exception lastException = null;
+        List<Exception> exceptions = null;
 
         for (var retry = 0; retry <= maxRetryCount; retry++)
         {
@@ -112,7 +112,12 @@ public class ConnectionManager
                 }
                 catch (Exception ex)
                 {
-                    lastException = ex;
+                    if (exceptions == null)
+                    {
+                        exceptions = new List<Exception>();
+                    }
+
+                    exceptions.Add(ex);
                 }
             } // lock released
 
@@ -120,6 +125,13 @@ public class ConnectionManager
             {
                 Thread.Sleep(retryDelayMilliseconds * (retry + 1));
             }
+        }
+
+        if (exceptions != null)
+        {
+            var aggEx = new AggregateException(exceptions);
+            onError?.Invoke(connectionString, null, maxRetryCount, aggEx);
+            throw aggEx;
         }
 
         return null;
