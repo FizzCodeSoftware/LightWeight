@@ -23,7 +23,7 @@ public static class Extensions
         return connectionString.GetAdoNetHelper()?.Unescape(identifier) ?? identifier;
     }
 
-    public static AdoNetEngine? GetSqlEngine(this NamedConnectionString connectionString)
+    public static AdoNetEngine? GetAdoNetEngine(this NamedConnectionString connectionString)
     {
         return connectionString.GetAdoNetHelper()?.Engine;
     }
