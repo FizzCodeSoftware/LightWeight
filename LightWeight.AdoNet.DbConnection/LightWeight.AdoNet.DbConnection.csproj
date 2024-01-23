@@ -1,14 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <PackageId>FizzCode.LightWeight.AdoNet.DbConnection</PackageId>
-    <Authors>FizzCode Ltd.</Authors>
-    <Product>LightWeight libraries for .NET</Product>
     <Description>Ado.NET database connection support</Description>
-    <Copyright>Copyright © 2019-2021 FizzCode Ltd.</Copyright>
-    <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>
-    <Platforms>AnyCPU</Platforms>
     <AssemblyName>FizzCode.LightWeight.AdoNet.DbConnection</AssemblyName>
     <RootNamespace>FizzCode.LightWeight.AdoNet.DbConnection</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -31,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LightWeight.Configuration\LightWeight.Configuration.csproj" />
+    <ProjectReference Include="..\LightWeight.ConnectionString\LightWeight.ConnectionString.csproj" />
   </ItemGroup>
 
 </Project>

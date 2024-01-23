@@ -1,14 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <PackageId>FizzCode.LightWeight.MsTest</PackageId>
-    <Authors>FizzCode Ltd.</Authors>
-    <Product>LightWeight libraries for .NET</Product>
     <Description>Lightweight MsTest UnitTest Extensions</Description>
-    <Copyright>Copyright © 2019-2021 FizzCode Ltd.</Copyright>
-    <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>
-    <Platforms>AnyCPU</Platforms>
     <AssemblyName>FizzCode.LightWeight.MsTest</AssemblyName>
     <RootNamespace>FizzCode.LightWeight.MsTest</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

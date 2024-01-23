@@ -74,7 +74,7 @@ dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = false:silent
 dotnet_style_allow_multiple_blank_lines_experimental = true:suggestion
 dotnet_style_allow_statement_immediately_after_block_experimental = true:suggestion
-dotnet_code_quality_unused_parameters = all:suggestion
+dotnet_code_quality_unused_parameters = non_public:silent
 dotnet_diagnostic.CA1016.severity = warning
 dotnet_diagnostic.CA1061.severity = suggestion
 dotnet_diagnostic.CA2101.severity = suggestion
@@ -84,9 +84,16 @@ dotnet_diagnostic.CA1822.severity = silent
 dotnet_diagnostic.CA2231.severity = suggestion
 dotnet_diagnostic.CA2241.severity = suggestion
 dotnet_diagnostic.CA2242.severity = suggestion
+dotnet_diagnostic.CA1859.severity = none
 ###############################
 # C# Coding Conventions       #
 ###############################
+
+# IDE0305: Simplify collection initialization
+dotnet_diagnostic.IDE0305.severity = none
+dotnet_style_prefer_collection_expression = true:suggestion
+dotnet_diagnostic.CA1869.severity = none
+
 [*.cs]
 # var preferences
 csharp_style_var_for_built_in_types = true:warning
@@ -144,7 +151,7 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
 csharp_using_directive_placement = outside_namespace:suggestion
-csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_simple_using_statement = true:silent
 csharp_style_namespace_declarations = file_scoped:suggestion
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = true:silent
@@ -177,6 +184,29 @@ csharp_style_unused_value_expression_statement_preference = discard_variable:sil
 ###############################
 # VB Coding Conventions       #
 ###############################
+
+# RCS1194: Implement exception constructors.
+dotnet_diagnostic.RCS1194.severity = none
+
+# RCS1163: Unused parameter.
+dotnet_diagnostic.RCS1163.severity = silent
+
+# RCS1097: Remove redundant 'ToString' call
+dotnet_diagnostic.RCS1097.severity = silent
+
+# RCS1239: Use 'for' statement instead of 'while' statement.
+dotnet_diagnostic.RCS1239.severity = silent
+csharp_style_prefer_primary_constructors = true:suggestion
+
+# RCS1158: Static member in generic type should use a type parameter
+dotnet_diagnostic.RCS1158.severity = silent
+
+# RCS1202: Avoid NullReferenceException
+dotnet_diagnostic.RCS1202.severity = silent
+
+# RCS1075: Avoid empty catch clause that catches System.Exception
+dotnet_diagnostic.RCS1075.severity = silent
+
 [*.vb]
 # Modifier preferences
 visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public,Friend,NotOverridable,Overridable,MustOverride,Overloads,Overrides,MustInherit,NotInheritable,Static,Shared,Shadows,ReadOnly,WriteOnly,Dim,Const,WithEvents,Widening,Narrowing,Custom,Async:suggestion

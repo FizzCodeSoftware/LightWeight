@@ -3,9 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{9BB9529D-3AA4-406E-8104-FE6DB4293000}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{9BB9529D-3AA4-406E-8104-FE6DB4293000}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -26,6 +27,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNet.DbConnection", "LightWeight.AdoNet.DbConnection\LightWeight.AdoNet.DbConnection.csproj", "{5AC15DEF-B548-4F30-9E1D-C7035EFC669A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNetTests", "Tests\LightWeight.AdoNet.Tests\LightWeight.AdoNetTests.csproj", "{E9822D42-4E1E-4656-8AF6-FB2B1777695D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.ConnectionString", "LightWeight.ConnectionString\LightWeight.ConnectionString.csproj", "{F3F21798-413F-498A-A050-DDBDF93C00A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +68,10 @@ Global
 		{E9822D42-4E1E-4656-8AF6-FB2B1777695D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9822D42-4E1E-4656-8AF6-FB2B1777695D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9822D42-4E1E-4656-8AF6-FB2B1777695D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3F21798-413F-498A-A050-DDBDF93C00A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3F21798-413F-498A-A050-DDBDF93C00A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3F21798-413F-498A-A050-DDBDF93C00A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3F21798-413F-498A-A050-DDBDF93C00A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

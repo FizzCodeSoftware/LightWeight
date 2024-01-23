@@ -1,13 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <PackageId>FizzCode.LightWeight.Configuration</PackageId>
-    <Authors>FizzCode Ltd.</Authors>
-    <Product>LightWeight libraries for .NET</Product>
     <Description>Configuration file helpers</Description>
-    <Copyright>Copyright © 2019-2021 FizzCode Ltd.</Copyright>
-    <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
     <AssemblyName>FizzCode.LightWeight.Configuration</AssemblyName>
     <RootNamespace>FizzCode.LightWeight.Configuration</RootNamespace>
