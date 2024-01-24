@@ -13,7 +13,7 @@ public class NamedConnectionString
     }
 
     [SetsRequiredMembers]
-    public NamedConnectionString(string name, string providerName, string connectionString, string version)
+    public NamedConnectionString(string name, string providerName, string connectionString, string version = null)
     {
         Name = name;
         ProviderName = providerName;
