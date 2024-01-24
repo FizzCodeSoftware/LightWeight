@@ -6,7 +6,7 @@ public class NamedConnectionString
     public required string Name { get; init; }
     public required string ProviderName { get; init; }
     public required string ConnectionString { get; init; }
-    public required string Version { get; init; }
+    public string Version { get; init; }
 
     public NamedConnectionString()
     {
