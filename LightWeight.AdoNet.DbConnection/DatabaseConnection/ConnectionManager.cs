@@ -12,7 +12,7 @@ public class ConnectionManager
 {
     public bool SeparateConnectionsByThreadId { get; set; } = true;
 
-    private readonly Dictionary<string, DatabaseConnection> _connections = new();
+    private readonly Dictionary<string, DatabaseConnection> _connections = [];
 
     public DisposableDatabaseConnection GetDisposableConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
     {
@@ -114,7 +114,7 @@ public class ConnectionManager
                 {
                     if (exceptions == null)
                     {
-                        exceptions = new List<Exception>();
+                        exceptions = [];
                     }
 
                     exceptions.Add(ex);
