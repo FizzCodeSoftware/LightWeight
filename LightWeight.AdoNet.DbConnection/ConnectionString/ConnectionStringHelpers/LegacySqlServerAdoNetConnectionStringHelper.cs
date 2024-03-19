@@ -117,7 +117,7 @@ public class LegacySqlServerAdoNetConnectionStringHelper : IAdoNetConnectionStri
             if (idx == -1)
                 continue;
 
-            var name = v.Substring(0, idx).ToUpperInvariant();
+            var name = v[..idx].ToUpperInvariant();
             var value = v[(idx + 1)..];
             switch (name)
             {
