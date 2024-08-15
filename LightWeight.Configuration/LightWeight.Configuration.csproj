@@ -3,7 +3,6 @@
   <PropertyGroup>
     <PackageId>FizzCode.LightWeight.Configuration</PackageId>
     <Description>Configuration file helpers</Description>
-    <Platforms>AnyCPU</Platforms>
     <AssemblyName>FizzCode.LightWeight.Configuration</AssemblyName>
     <RootNamespace>FizzCode.LightWeight.Configuration</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
