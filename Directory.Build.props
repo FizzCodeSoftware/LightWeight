@@ -13,6 +13,8 @@
     <RepositoryUrl>https://github.com/FizzcodeSoftware/LightWeight</RepositoryUrl>
 
     <UseArtifactsOutput>true</UseArtifactsOutput>
+
+    <NuGetAuditMode>direct</NuGetAuditMode>
     
   </PropertyGroup>
 </Project>
