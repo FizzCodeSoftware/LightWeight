@@ -12,7 +12,7 @@ public class AzureStorageAccountConnectionString : INamedConnectionString
         .Select(x => x.Split('=')[1].Trim())
         .FirstOrDefault() ?? "";
 
-    public static string DefaultProviderName { get; } = "AzureStorageAccount";
+    public const string DefaultProviderName = "AzureStorageAccount";
 
     public string ProviderName => DefaultProviderName;
     public string Version => null;

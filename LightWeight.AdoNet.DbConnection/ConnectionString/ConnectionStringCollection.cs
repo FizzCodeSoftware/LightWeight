@@ -16,16 +16,9 @@ public class ConnectionStringCollection
             var name = child.Key;
             var providerName = ConfigurationReader.GetCurrentValue(configuration, child.Path, "ProviderName", null, secretProtector);
             var connectionString = ConfigurationReader.GetCurrentValue(configuration, child.Path, "ConnectionString", null, secretProtector);
-
-            if (providerName == AzureStorageAccountConnectionString.DefaultProviderName)
-            {
-                Add(new AzureStorageAccountConnectionString(name, connectionString));
-            }
-            else
-            {
-                var version = ConfigurationReader.GetCurrentValue(configuration, child.Path, "Version", null, secretProtector);
-                Add(new NamedConnectionString(name, providerName, connectionString, version));
-            }
+            var version = ConfigurationReader.GetCurrentValue(configuration, child.Path, "Version", null, secretProtector);
+            var namedConnectionString = NamedConnectionStringFactory.Create(name, providerName, connectionString, version);
+            Add(namedConnectionString);
         }
     }
 

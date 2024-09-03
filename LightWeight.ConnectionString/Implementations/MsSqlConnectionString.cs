@@ -1,12 +1,33 @@
-﻿namespace FizzCode.LightWeight.AdoNet;
+﻿namespace FizzCode.LightWeight;
 
-[EditorBrowsable(EditorBrowsableState.Never)]
-public class LegacySqlServerAdoNetConnectionStringHelper : IAdoNetConnectionStringHelper
+public class MsSqlConnectionString : IAdoNetConnectionString
 {
-    public string ProviderName => "System.Data.SqlClient";
-    public AdoNetEngine Engine => AdoNetEngine.MsSql;
+    public required string Name { get; init; }
+    public required string ConnectionString { get; init; }
+    public string Version { get; init; }
+
+    public AdoNetEngine SqlEngine => AdoNetEngine.MsSql;
+    public const string DefaultProviderName = "Microsoft.Data.SqlClient";
+    public string ProviderName => DefaultProviderName;
 
     private static readonly Regex _regex = new(@" *(\[[^]]+\]|\w+)");
+
+    public MsSqlConnectionString()
+    {
+    }
+
+    [SetsRequiredMembers]
+    public MsSqlConnectionString(string name, string connectionString, string version = null)
+    {
+        Name = name;
+        ConnectionString = connectionString;
+        Version = version;
+    }
+
+    public override string ToString()
+    {
+        return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
+    }
 
     public string GetObjectIdentifier(string fullIdentifier)
     {
@@ -100,12 +121,12 @@ public class LegacySqlServerAdoNetConnectionStringHelper : IAdoNetConnectionStri
             .Replace("]", "", StringComparison.InvariantCulture);
     }
 
-    public AdoNetConnectionStringFields GetKnownConnectionStringFields(NamedConnectionString connectionString)
+    public AdoNetConnectionStringFields GetFields()
     {
-        if (string.IsNullOrEmpty(connectionString.ConnectionString))
+        if (string.IsNullOrEmpty(ConnectionString))
             return null;
 
-        var values = connectionString.ConnectionString
+        var values = ConnectionString
             .Split(';', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim());
 
@@ -132,6 +153,11 @@ public class LegacySqlServerAdoNetConnectionStringHelper : IAdoNetConnectionStri
                 case "USER ID":
                 case "UID":
                     result.UserId = value;
+                    break;
+                case "ENCRYPT":
+                    result.Encrypt = string.Equals(value, "yes", StringComparison.InvariantCultureIgnoreCase)
+                        || string.Equals(value, "true", StringComparison.InvariantCultureIgnoreCase)
+                        || string.Equals(value, "1", StringComparison.InvariantCultureIgnoreCase);
                     break;
                 case "PORT":
                     if (int.TryParse(value, out var port))

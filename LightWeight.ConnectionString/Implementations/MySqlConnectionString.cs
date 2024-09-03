@@ -1,10 +1,31 @@
-﻿namespace FizzCode.LightWeight.AdoNet;
+﻿namespace FizzCode.LightWeight;
 
-[EditorBrowsable(EditorBrowsableState.Never)]
-public class OracleAdoNetConnectionStringHelper : IAdoNetConnectionStringHelper
+public class MySqlConnectionString : IAdoNetConnectionString
 {
-    public string ProviderName => "Oracle.ManagedDataAccess.Client";
-    public AdoNetEngine Engine => AdoNetEngine.OracleSql;
+    public required string Name { get; init; }
+    public required string ConnectionString { get; init; }
+    public string Version { get; init; }
+
+    public AdoNetEngine SqlEngine => AdoNetEngine.MySql;
+    public const string DefaultProviderName = "MySql.Data.MySqlClient";
+    public string ProviderName => DefaultProviderName;
+
+    public MySqlConnectionString()
+    {
+    }
+
+    [SetsRequiredMembers]
+    public MySqlConnectionString(string name, string connectionString, string version = null)
+    {
+        Name = name;
+        ConnectionString = connectionString;
+        Version = version;
+    }
+
+    public override string ToString()
+    {
+        return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
+    }
 
     public string GetObjectIdentifier(string fullIdentifier)
     {
@@ -26,28 +47,28 @@ public class OracleAdoNetConnectionStringHelper : IAdoNetConnectionStringHelper
 
     public string EscapeIdentifier(string identifier)
     {
-        return identifier.StartsWith('\"') && identifier.EndsWith('\"')
+        return identifier.StartsWith('`') && identifier.EndsWith('`')
             ? identifier
-            : "\"" + identifier + "\"";
+            : "`" + identifier + "`";
     }
 
     public bool IsEscaped(string identifier)
     {
-        return identifier.StartsWith('\"') && identifier.EndsWith('\"');
+        return identifier.StartsWith('`') && identifier.EndsWith('`');
     }
 
     public string Unescape(string identifier)
     {
         return identifier
-            .Replace("\"", "", StringComparison.InvariantCulture);
+            .Replace("`", "", StringComparison.InvariantCulture);
     }
 
-    public AdoNetConnectionStringFields GetKnownConnectionStringFields(NamedConnectionString connectionString)
+    public AdoNetConnectionStringFields GetFields()
     {
-        if (string.IsNullOrEmpty(connectionString.ConnectionString))
+        if (string.IsNullOrEmpty(ConnectionString))
             return null;
 
-        var values = connectionString.ConnectionString
+        var values = ConnectionString
             .Split(';', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim());
 

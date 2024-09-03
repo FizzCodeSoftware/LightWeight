@@ -1,8 +1,8 @@
 ﻿namespace FizzCode.LightWeight.AdoNet;
 
-public delegate void OnConnectionOpening(NamedConnectionString connectionString, IDbConnection connection);
-public delegate void OnConnectionOpened(NamedConnectionString connectionString, IDbConnection connection, int retryCount);
-public delegate void OnConnectionOpenError(NamedConnectionString connectionString, IDbConnection connection, int retryCount, Exception ex);
+public delegate void OnConnectionOpening(GenericNamedConnectionString connectionString, IDbConnection connection);
+public delegate void OnConnectionOpened(GenericNamedConnectionString connectionString, IDbConnection connection, int retryCount);
+public delegate void OnConnectionOpenError(GenericNamedConnectionString connectionString, IDbConnection connection, int retryCount, Exception ex);
 
 public delegate void OnConnectionClosing(DatabaseConnection connection);
 public delegate void OnConnectionClosed(DatabaseConnection connection);
@@ -14,17 +14,17 @@ public class ConnectionManager
 
     private readonly Dictionary<string, DatabaseConnection> _connections = [];
 
-    public DisposableDatabaseConnection GetDisposableConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
+    public DisposableDatabaseConnection GetDisposableConnection(GenericNamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
     {
         return GetConnection<DisposableDatabaseConnection>(connectionString, maxRetryCount, retryDelayMilliseconds, onOpening, onOpened, onError);
     }
 
-    public DatabaseConnection GetConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
+    public DatabaseConnection GetConnection(GenericNamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
     {
         return GetConnection<DatabaseConnection>(connectionString, maxRetryCount, retryDelayMilliseconds, onOpening, onOpened, onError);
     }
 
-    public T GetConnection<T>(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
+    public T GetConnection<T>(GenericNamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
         where T : DatabaseConnection, new()
     {
         var key = connectionString.Name;
@@ -137,7 +137,7 @@ public class ConnectionManager
         return null;
     }
 
-    public DatabaseConnection GetNewConnection(NamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
+    public DatabaseConnection GetNewConnection(GenericNamedConnectionString connectionString, int maxRetryCount = 5, int retryDelayMilliseconds = 2000, OnConnectionOpening onOpening = null, OnConnectionOpened onOpened = null, OnConnectionOpenError onError = null)
     {
         Exception lastException = null;
 
@@ -278,7 +278,7 @@ public class ConnectionManager
         }
     }
 
-    public void TestConnection(NamedConnectionString connectionString)
+    public void TestConnection(GenericNamedConnectionString connectionString)
     {
         IDbConnection conn = null;
 

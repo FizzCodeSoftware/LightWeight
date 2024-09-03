@@ -1,8 +1,7 @@
-﻿namespace FizzCode.LightWeight.AdoNet;
+﻿namespace FizzCode.LightWeight;
 
 public enum AdoNetEngine
 {
-    GenericSql,
     MsSql,
     MySql,
     OracleSql,

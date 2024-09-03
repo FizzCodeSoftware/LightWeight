@@ -1,10 +1,31 @@
-﻿namespace FizzCode.LightWeight.AdoNet;
+﻿namespace FizzCode.LightWeight;
 
-[EditorBrowsable(EditorBrowsableState.Never)]
-public class SqLiteAdoNetConnectionStringHelper : IAdoNetConnectionStringHelper
+public class OracleSqlConnectionString : IAdoNetConnectionString
 {
-    public string ProviderName => "System.Data.SQLite";
-    public AdoNetEngine Engine => AdoNetEngine.SqLite;
+    public required string Name { get; init; }
+    public required string ConnectionString { get; init; }
+    public string Version { get; init; }
+
+    public AdoNetEngine SqlEngine => AdoNetEngine.OracleSql;
+    public const string DefaultProviderName = "Oracle.ManagedDataAccess.Client";
+    public string ProviderName => DefaultProviderName;
+
+    public OracleSqlConnectionString()
+    {
+    }
+
+    [SetsRequiredMembers]
+    public OracleSqlConnectionString(string name, string connectionString, string version = null)
+    {
+        Name = name;
+        ConnectionString = connectionString;
+        Version = version;
+    }
+
+    public override string ToString()
+    {
+        return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
+    }
 
     public string GetObjectIdentifier(string fullIdentifier)
     {
@@ -42,12 +63,12 @@ public class SqLiteAdoNetConnectionStringHelper : IAdoNetConnectionStringHelper
             .Replace("\"", "", StringComparison.InvariantCulture);
     }
 
-    public AdoNetConnectionStringFields GetKnownConnectionStringFields(NamedConnectionString connectionString)
+    public AdoNetConnectionStringFields GetFields()
     {
-        if (string.IsNullOrEmpty(connectionString.ConnectionString))
+        if (string.IsNullOrEmpty(ConnectionString))
             return null;
 
-        var values = connectionString.ConnectionString
+        var values = ConnectionString
             .Split(';', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim());
 

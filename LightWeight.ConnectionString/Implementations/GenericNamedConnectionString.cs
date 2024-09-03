@@ -1,19 +1,19 @@
 ﻿namespace FizzCode.LightWeight;
 
 [DebuggerDisplay("{Name}, {ProviderName}, {ConnectionString}")]
-public class NamedConnectionString : INamedConnectionString
+public class GenericNamedConnectionString : INamedConnectionString
 {
     public required string Name { get; init; }
     public required string ProviderName { get; init; }
     public required string ConnectionString { get; init; }
     public string Version { get; init; }
 
-    public NamedConnectionString()
+    public GenericNamedConnectionString()
     {
     }
 
     [SetsRequiredMembers]
-    public NamedConnectionString(string name, string providerName, string connectionString, string version = null)
+    public GenericNamedConnectionString(string name, string providerName, string connectionString, string version = null)
     {
         Name = name;
         ProviderName = providerName;

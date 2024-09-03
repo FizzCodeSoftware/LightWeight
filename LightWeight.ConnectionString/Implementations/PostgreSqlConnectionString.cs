@@ -1,10 +1,31 @@
-﻿namespace FizzCode.LightWeight.AdoNet;
+﻿namespace FizzCode.LightWeight;
 
-[EditorBrowsable(EditorBrowsableState.Never)]
-public class GenericAdoNetConnectionStringHelper : IAdoNetConnectionStringHelper
+public class PostgreSqlConnectionString : IAdoNetConnectionString
 {
-    public string ProviderName => null;
-    public AdoNetEngine Engine => AdoNetEngine.GenericSql;
+    public required string Name { get; init; }
+    public required string ConnectionString { get; init; }
+    public string Version { get; init; }
+
+    public AdoNetEngine SqlEngine => AdoNetEngine.PostgreSql;
+    public const string DefaultProviderName = "Npgsql";
+    public string ProviderName => DefaultProviderName;
+
+    public PostgreSqlConnectionString()
+    {
+    }
+
+    [SetsRequiredMembers]
+    public PostgreSqlConnectionString(string name, string connectionString, string version = null)
+    {
+        Name = name;
+        ConnectionString = connectionString;
+        Version = version;
+    }
+
+    public override string ToString()
+    {
+        return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
+    }
 
     public string GetObjectIdentifier(string fullIdentifier)
     {
@@ -26,25 +47,28 @@ public class GenericAdoNetConnectionStringHelper : IAdoNetConnectionStringHelper
 
     public string EscapeIdentifier(string identifier)
     {
-        return identifier;
+        return identifier.StartsWith('\"') && identifier.EndsWith('\"')
+            ? identifier
+            : "\"" + identifier + "\"";
     }
 
     public bool IsEscaped(string identifier)
     {
-        return false;
+        return identifier.StartsWith('\"') && identifier.EndsWith('\"');
     }
 
     public string Unescape(string identifier)
     {
-        return identifier;
+        return identifier
+            .Replace("\"", "", StringComparison.InvariantCulture);
     }
 
-    public AdoNetConnectionStringFields GetKnownConnectionStringFields(NamedConnectionString connectionString)
+    public AdoNetConnectionStringFields GetFields()
     {
-        if (string.IsNullOrEmpty(connectionString.ConnectionString))
+        if (string.IsNullOrEmpty(ConnectionString))
             return null;
 
-        var values = connectionString.ConnectionString
+        var values = ConnectionString
             .Split(';', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim());
 
