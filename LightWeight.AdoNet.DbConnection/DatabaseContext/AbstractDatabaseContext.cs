@@ -2,10 +2,10 @@
 
 public abstract class AbstractDatabaseContext : IDatabaseContext
 {
-    public ConnectionManager ConnectionManager { get; }
+    public AdoNetSqlConnectionManager ConnectionManager { get; }
     public CancellationToken CancellationToken { get; }
 
-    protected AbstractDatabaseContext(ConnectionManager connectionManager, CancellationToken cancellationToken)
+    protected AbstractDatabaseContext(AdoNetSqlConnectionManager connectionManager, CancellationToken cancellationToken)
     {
         ConnectionManager = connectionManager;
         CancellationToken = cancellationToken;

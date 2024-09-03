@@ -2,7 +2,7 @@
 
 public interface IDatabaseContext
 {
-    public ConnectionManager ConnectionManager { get; }
+    public AdoNetSqlConnectionManager ConnectionManager { get; }
     public CancellationToken CancellationToken { get; }
     public IUnitOfWork NewUnitOfWork();
 }

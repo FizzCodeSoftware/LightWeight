@@ -1,6 +1,6 @@
 ﻿namespace FizzCode.LightWeight;
 
-public class OracleSqlConnectionString : IAdoNetConnectionString
+public class OracleSqlConnectionString : IAdoNetSqlConnectionString
 {
     public required string Name { get; init; }
     public required string ConnectionString { get; init; }

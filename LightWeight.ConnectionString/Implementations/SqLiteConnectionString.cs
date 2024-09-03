@@ -1,6 +1,6 @@
 ﻿namespace FizzCode.LightWeight;
 
-public class SqLiteConnectionString : IAdoNetConnectionString
+public class SqLiteConnectionString : IAdoNetSqlConnectionString
 {
     public required string Name { get; init; }
     public required string ConnectionString { get; init; }

@@ -2,9 +2,9 @@
 
 public class DatabaseConnection
 {
-    public ConnectionManager Manager { get; internal init; }
+    public AdoNetSqlConnectionManager Manager { get; internal init; }
     public string Key { get; internal init; }
-    public GenericNamedConnectionString ConnectionString { get; internal init; }
+    public IAdoNetSqlConnectionString ConnectionString { get; internal init; }
     public IDbConnection Connection { get; internal init; }
     public Transaction TransactionWhenCreated { get; internal init; }
     public object Lock { get; } = new object();

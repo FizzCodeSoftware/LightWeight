@@ -1,6 +1,6 @@
 ﻿namespace FizzCode.LightWeight;
 
-public class PostgreSqlConnectionString : IAdoNetConnectionString
+public class PostgreSqlConnectionString : IAdoNetSqlConnectionString
 {
     public required string Name { get; init; }
     public required string ConnectionString { get; init; }

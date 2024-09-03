@@ -1,6 +1,6 @@
 ﻿namespace FizzCode.LightWeight;
 
-public interface IAdoNetConnectionString : INamedConnectionString
+public interface IAdoNetSqlConnectionString : INamedConnectionString
 {
     public AdoNetEngine SqlEngine { get; }
 
