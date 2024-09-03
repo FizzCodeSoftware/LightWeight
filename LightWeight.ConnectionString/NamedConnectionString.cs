@@ -1,7 +1,7 @@
 ﻿namespace FizzCode.LightWeight;
 
 [DebuggerDisplay("{Name}, {ProviderName}, {ConnectionString}")]
-public class NamedConnectionString
+public class NamedConnectionString : INamedConnectionString
 {
     public required string Name { get; init; }
     public required string ProviderName { get; init; }

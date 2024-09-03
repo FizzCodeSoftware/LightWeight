@@ -2,8 +2,8 @@
 
 public class ConnectionStringCollection
 {
-    private readonly Dictionary<string, NamedConnectionString> _connectionStrings = new(StringComparer.InvariantCultureIgnoreCase);
-    public IEnumerable<NamedConnectionString> All => _connectionStrings.Values;
+    private readonly Dictionary<string, INamedConnectionString> _connectionStrings = new(StringComparer.InvariantCultureIgnoreCase);
+    public IEnumerable<INamedConnectionString> All => _connectionStrings.Values;
 
     public void LoadFromConfiguration(IConfiguration configuration, string sectionKey = "ConnectionStrings", IConfigurationSecretProtector secretProtector = null)
     {
@@ -16,18 +16,25 @@ public class ConnectionStringCollection
             var name = child.Key;
             var providerName = ConfigurationReader.GetCurrentValue(configuration, child.Path, "ProviderName", null, secretProtector);
             var connectionString = ConfigurationReader.GetCurrentValue(configuration, child.Path, "ConnectionString", null, secretProtector);
-            var version = ConfigurationReader.GetCurrentValue(configuration, child.Path, "Version", null, secretProtector);
 
-            Add(new NamedConnectionString(name, providerName, connectionString, version));
+            if (providerName == AzureStorageAccountConnectionString.DefaultProviderName)
+            {
+                Add(new AzureStorageAccountConnectionString(name, connectionString));
+            }
+            else
+            {
+                var version = ConfigurationReader.GetCurrentValue(configuration, child.Path, "Version", null, secretProtector);
+                Add(new NamedConnectionString(name, providerName, connectionString, version));
+            }
         }
     }
 
-    public void Add(NamedConnectionString connectionString)
+    public void Add(INamedConnectionString connectionString)
     {
         _connectionStrings[connectionString.Name] = connectionString;
     }
 
-    public NamedConnectionString this[string name]
+    public INamedConnectionString this[string name]
     {
         get
         {
