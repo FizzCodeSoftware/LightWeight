@@ -1,6 +1,5 @@
 ﻿namespace FizzCode.LightWeight;
 
-[EditorBrowsable(EditorBrowsableState.Never)]
 public class AzureStorageAccountConnectionString : INamedConnectionString
 {
     public required string Name { get; init; }
