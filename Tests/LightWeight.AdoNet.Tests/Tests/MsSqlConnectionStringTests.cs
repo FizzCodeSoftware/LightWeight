@@ -10,7 +10,7 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("person", "__temp");
-        var expected = "__temp";
+        const string expected = "__temp";
 
         Assert.AreEqual(expected, result);
     }
@@ -20,7 +20,7 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("[dbo].[person]", "__temp");
-        var expected = "[dbo].[__temp]";
+        const string expected = "[dbo].[__temp]";
 
         Assert.AreEqual(expected, result);
     }
@@ -30,7 +30,7 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("[mydb.test].[dbo].[person]", "__temp");
-        var expected = "[mydb.test].[dbo].[__temp]";
+        const string expected = "[mydb.test].[dbo].[__temp]";
 
         Assert.AreEqual(expected, result);
     }
@@ -40,7 +40,7 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("dbo.person", "__temp");
-        var expected = "dbo.__temp";
+        const string expected = "dbo.__temp";
 
         Assert.AreEqual(expected, result);
     }
@@ -50,7 +50,7 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("mydb.dbo.person", "__temp");
-        var expected = "mydb.dbo.__temp";
+        const string expected = "mydb.dbo.__temp";
 
         Assert.AreEqual(expected, result);
     }
@@ -60,7 +60,7 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("mydb.dbo.[person]", "__temp");
-        var expected = "mydb.dbo.[__temp]";
+        const string expected = "mydb.dbo.[__temp]";
 
         Assert.AreEqual(expected, result);
     }
@@ -70,7 +70,7 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("mydb.[dbo.hello].person", "__temp");
-        var expected = "mydb.[dbo.hello].[__temp]";
+        const string expected = "mydb.[dbo.hello].[__temp]";
 
         Assert.AreEqual(expected, result);
     }
@@ -80,7 +80,7 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("mydb.[dbo.hello].[person.today]", "__temp");
-        var expected = "mydb.[dbo.hello].[__temp]";
+        const string expected = "mydb.[dbo.hello].[__temp]";
 
         Assert.AreEqual(expected, result);
     }
@@ -90,8 +90,35 @@ public class MsSqlConnectionStringTests
     {
         var formatter = new MsSqlConnectionString("", "");
         var result = formatter.ChangeObjectIdentifier("[mydb backup].[dbo.hello].[person.today]", "__temp");
-        var expected = "[mydb backup].[dbo.hello].[__temp]";
+        const string expected = "[mydb backup].[dbo.hello].[__temp]";
 
         Assert.AreEqual(expected, result);
+    }
+
+    [TestMethod]
+    public void SetInitialCatalog1()
+    {
+        var cs = new MsSqlConnectionString("test", "Server=tcp:test.sql.azuresynapse.net,1433;Initial Catalog=ds;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;");
+        cs.SetInitialCatalog("newcatalog");
+        const string expected = "Server=tcp:test.sql.azuresynapse.net,1433;Initial Catalog=newcatalog;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        Assert.AreEqual(expected, cs.ConnectionString);
+    }
+
+    [TestMethod]
+    public void SetInitialCatalog2()
+    {
+        var cs = new MsSqlConnectionString("test", "Server=tcp:test.sql.azuresynapse.net,1433;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;Initial Catalog=ds");
+        cs.SetInitialCatalog("newcatalog");
+        const string expected = "Server=tcp:test.sql.azuresynapse.net,1433;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;Initial Catalog=newcatalog";
+        Assert.AreEqual(expected, cs.ConnectionString);
+    }
+
+    [TestMethod]
+    public void SetInitialCatalog3()
+    {
+        var cs = new MsSqlConnectionString("test", "Server=tcp:test.sql.azuresynapse.net,1433;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Initial Catalog=ds;Connection Timeout=30");
+        cs.SetInitialCatalog("newcatalog");
+        const string expected = "Server=tcp:test.sql.azuresynapse.net,1433;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Initial Catalog=newcatalog;Connection Timeout=30";
+        Assert.AreEqual(expected, cs.ConnectionString);
     }
 }

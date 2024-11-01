@@ -42,7 +42,7 @@ public class MsSqlConnectionString : IAdoNetSqlConnectionString
                 // append to the end
                 _connectionString = string.Concat(
                     _connectionString.AsSpan(0, idx),
-                    ";Initial Catalog=",
+                    "Initial Catalog=",
                     databaseName);
             }
             else
@@ -50,7 +50,7 @@ public class MsSqlConnectionString : IAdoNetSqlConnectionString
                 // replace
                 _connectionString = string.Concat(
                     _connectionString.AsSpan(0, idx),
-                    ";Initial Catalog=",
+                    "Initial Catalog=",
                     databaseName,
                     _connectionString.AsSpan(idx2));
             }
