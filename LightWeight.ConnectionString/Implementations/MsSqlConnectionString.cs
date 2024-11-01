@@ -3,10 +3,7 @@
 public class MsSqlConnectionString : IAdoNetSqlConnectionString
 {
     public required string Name { get; init; }
-    private string _connectionString;
-#pragma warning disable RCS1085 // Use auto-implemented property
-    public required string ConnectionString { get => _connectionString; init => _connectionString = value; }
-#pragma warning restore RCS1085 // Use auto-implemented property
+    public required string ConnectionString { get; init; }
     public string Version { get; init; }
 
     public AdoNetEngine SqlEngine => AdoNetEngine.MsSql;
@@ -27,34 +24,37 @@ public class MsSqlConnectionString : IAdoNetSqlConnectionString
         Version = version;
     }
 
-    public void SetInitialCatalog(string databaseName)
+    public MsSqlConnectionString CloneWithInitialCatalog(string databaseName)
     {
-        var idx = _connectionString.IndexOf("Initial Catalog", StringComparison.InvariantCulture);
+        var newConnectionString = ConnectionString;
+        var idx = newConnectionString.IndexOf("Initial Catalog", StringComparison.InvariantCulture);
         if (idx == -1)
         {
-            _connectionString = _connectionString + ";Initial Catalog=" + databaseName;
+            newConnectionString = newConnectionString + ";Initial Catalog=" + databaseName;
         }
         else
         {
-            var idx2 = _connectionString.IndexOf(';', idx + 1);
+            var idx2 = newConnectionString.IndexOf(';', idx + 1);
             if (idx2 == -1)
             {
                 // append to the end
-                _connectionString = string.Concat(
-                    _connectionString.AsSpan(0, idx),
+                newConnectionString = string.Concat(
+                    newConnectionString.AsSpan(0, idx),
                     "Initial Catalog=",
                     databaseName);
             }
             else
             {
                 // replace
-                _connectionString = string.Concat(
-                    _connectionString.AsSpan(0, idx),
+                newConnectionString = string.Concat(
+                    newConnectionString.AsSpan(0, idx),
                     "Initial Catalog=",
                     databaseName,
-                    _connectionString.AsSpan(idx2));
+                    newConnectionString.AsSpan(idx2));
             }
         }
+
+        return new MsSqlConnectionString(Name, newConnectionString, Version);
     }
 
     public override string ToString()

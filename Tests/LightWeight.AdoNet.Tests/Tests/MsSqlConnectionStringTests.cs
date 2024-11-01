@@ -99,26 +99,26 @@ public class MsSqlConnectionStringTests
     public void SetInitialCatalog1()
     {
         var cs = new MsSqlConnectionString("test", "Server=tcp:test.sql.azuresynapse.net,1433;Initial Catalog=ds;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;");
-        cs.SetInitialCatalog("newcatalog");
+        var cs2 = cs.CloneWithInitialCatalog("newcatalog");
         const string expected = "Server=tcp:test.sql.azuresynapse.net,1433;Initial Catalog=newcatalog;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        Assert.AreEqual(expected, cs.ConnectionString);
+        Assert.AreEqual(expected, cs2.ConnectionString);
     }
 
     [TestMethod]
     public void SetInitialCatalog2()
     {
         var cs = new MsSqlConnectionString("test", "Server=tcp:test.sql.azuresynapse.net,1433;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;Initial Catalog=ds");
-        cs.SetInitialCatalog("newcatalog");
+        var cs2 = cs.CloneWithInitialCatalog("newcatalog");
         const string expected = "Server=tcp:test.sql.azuresynapse.net,1433;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;Initial Catalog=newcatalog";
-        Assert.AreEqual(expected, cs.ConnectionString);
+        Assert.AreEqual(expected, cs2.ConnectionString);
     }
 
     [TestMethod]
     public void SetInitialCatalog3()
     {
         var cs = new MsSqlConnectionString("test", "Server=tcp:test.sql.azuresynapse.net,1433;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Initial Catalog=ds;Connection Timeout=30");
-        cs.SetInitialCatalog("newcatalog");
+        var cs2 = cs.CloneWithInitialCatalog("newcatalog");
         const string expected = "Server=tcp:test.sql.azuresynapse.net,1433;Persist Security Info=False;User ID=x;Password=y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Initial Catalog=newcatalog;Connection Timeout=30";
-        Assert.AreEqual(expected, cs.ConnectionString);
+        Assert.AreEqual(expected, cs2.ConnectionString);
     }
 }
