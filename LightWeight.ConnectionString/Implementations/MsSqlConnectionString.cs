@@ -3,7 +3,10 @@
 public class MsSqlConnectionString : IAdoNetSqlConnectionString
 {
     public required string Name { get; init; }
-    public required string ConnectionString { get; init; }
+    private string _connectionString;
+#pragma warning disable RCS1085 // Use auto-implemented property
+    public required string ConnectionString { get => _connectionString; init => _connectionString = value; }
+#pragma warning restore RCS1085 // Use auto-implemented property
     public string Version { get; init; }
 
     public AdoNetEngine SqlEngine => AdoNetEngine.MsSql;
@@ -22,6 +25,36 @@ public class MsSqlConnectionString : IAdoNetSqlConnectionString
         Name = name;
         ConnectionString = connectionString;
         Version = version;
+    }
+
+    public void SetInitialCatalog(string databaseName)
+    {
+        var idx = _connectionString.IndexOf("Initial Catalog", StringComparison.InvariantCulture);
+        if (idx == -1)
+        {
+            _connectionString = _connectionString + ";Initial Catalog=" + databaseName;
+        }
+        else
+        {
+            var idx2 = _connectionString.IndexOf(';', idx + 1);
+            if (idx2 == -1)
+            {
+                // append to the end
+                _connectionString = string.Concat(
+                    _connectionString.AsSpan(0, idx),
+                    ";Initial Catalog=",
+                    databaseName);
+            }
+            else
+            {
+                // replace
+                _connectionString = string.Concat(
+                    _connectionString.AsSpan(0, idx),
+                    ";Initial Catalog=",
+                    databaseName,
+                    _connectionString.AsSpan(idx2));
+            }
+        }
     }
 
     public override string ToString()
