@@ -124,7 +124,7 @@ public static class ExceptionExtensions
             actualFrames.Add((frame, method, assemblyName));
         }
 
-        var maxAssemblyNameLength = actualFrames.Max(frame => frame.AssemblyName.Length);
+        var maxAssemblyNameLength = actualFrames.Max(frame => frame.AssemblyName?.Length ?? 0);
         foreach (var (frame, method, assemblyName) in actualFrames)
             builder.AppendLine(FrameToString(frame, method, assemblyName, maxAssemblyNameLength));
 
