@@ -20,7 +20,7 @@ public static class ExceptionExtensions
                 if (includeTrace)
                 {
                     if (cex.Data?["Trace"] is not string trace)
-                        trace = GetTraceFromStackFrames(new StackTrace(cex, true).GetFrames(), 1 + skipStackFrames);
+                        trace = GetTraceFromStackFrames(new StackTrace(cex, true).GetFrames(), lvl == 0 ? 1 + skipStackFrames : 0);
 
                     if (trace != null)
                     {
