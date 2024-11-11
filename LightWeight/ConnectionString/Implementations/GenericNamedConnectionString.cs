@@ -1,4 +1,4 @@
-﻿namespace FizzCode.LightWeight;
+﻿namespace FizzCode;
 
 [DebuggerDisplay("{Name}, {ProviderName}, {ConnectionString}")]
 public class GenericNamedConnectionString : INamedConnectionString

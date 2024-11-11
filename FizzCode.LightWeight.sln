@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNet.DbConnec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.AdoNetTests", "Tests\LightWeight.AdoNet.Tests\LightWeight.AdoNetTests.csproj", "{E9822D42-4E1E-4656-8AF6-FB2B1777695D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight.ConnectionString", "LightWeight.ConnectionString\LightWeight.ConnectionString.csproj", "{F3F21798-413F-498A-A050-DDBDF93C00A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight", "LightWeight\LightWeight.csproj", "{F3F21798-413F-498A-A050-DDBDF93C00A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

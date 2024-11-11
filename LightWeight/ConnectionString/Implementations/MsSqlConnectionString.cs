@@ -1,28 +1,11 @@
-﻿namespace FizzCode.LightWeight;
+﻿namespace FizzCode;
 
-public class MsSqlConnectionString : IAdoNetSqlConnectionString
+public class MsSqlConnectionString(string name, string connectionString, string version = null)
+    : BaseAdoNetSqlConnectionString(AdoNetEngine.MsSql, DefaultProviderName, name, connectionString, version)
 {
-    public required string Name { get; init; }
-    public required string ConnectionString { get; init; }
-    public string Version { get; init; }
-
-    public AdoNetEngine SqlEngine => AdoNetEngine.MsSql;
     public const string DefaultProviderName = "Microsoft.Data.SqlClient";
-    public string ProviderName => DefaultProviderName;
 
     private static readonly Regex _regex = new(@" *(\[[^]]+\]|\w+)");
-
-    public MsSqlConnectionString()
-    {
-    }
-
-    [SetsRequiredMembers]
-    public MsSqlConnectionString(string name, string connectionString, string version = null)
-    {
-        Name = name;
-        ConnectionString = connectionString;
-        Version = version;
-    }
 
     public MsSqlConnectionString CloneWithInitialCatalog(string databaseName)
     {
@@ -57,12 +40,7 @@ public class MsSqlConnectionString : IAdoNetSqlConnectionString
         return new MsSqlConnectionString(Name, newConnectionString, Version);
     }
 
-    public override string ToString()
-    {
-        return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
-    }
-
-    public string GetObjectIdentifier(string fullIdentifier)
+    public override string GetObjectIdentifier(string fullIdentifier)
     {
         if (fullIdentifier.Contains('.', StringComparison.InvariantCultureIgnoreCase))
         {
@@ -81,7 +59,7 @@ public class MsSqlConnectionString : IAdoNetSqlConnectionString
         return fullIdentifier;
     }
 
-    public string ChangeObjectIdentifier(string fullIdentifier, string newObjectIdentifier)
+    public override string ChangeObjectIdentifier(string fullIdentifier, string newObjectIdentifier)
     {
         if (fullIdentifier.Contains('[', StringComparison.InvariantCultureIgnoreCase))
         {
@@ -127,7 +105,7 @@ public class MsSqlConnectionString : IAdoNetSqlConnectionString
         }
     }
 
-    public string Escape(string dbObject, string schema = null)
+    public override string Escape(string dbObject, string schema = null)
     {
         if (!string.IsNullOrEmpty(schema))
             return EscapeIdentifier(schema) + "." + EscapeIdentifier(dbObject);
@@ -135,26 +113,26 @@ public class MsSqlConnectionString : IAdoNetSqlConnectionString
         return EscapeIdentifier(dbObject);
     }
 
-    public string EscapeIdentifier(string identifier)
+    public override string EscapeIdentifier(string identifier)
     {
         return identifier.StartsWith('[') && identifier.EndsWith(']')
              ? identifier
              : "[" + identifier + "]";
     }
 
-    public bool IsEscaped(string identifier)
+    public override bool IsEscaped(string identifier)
     {
         return identifier.StartsWith('[') && identifier.EndsWith(']');
     }
 
-    public string Unescape(string identifier)
+    public override string Unescape(string identifier)
     {
         return identifier
             .Replace("[", "", StringComparison.InvariantCulture)
             .Replace("]", "", StringComparison.InvariantCulture);
     }
 
-    public AdoNetConnectionStringFields GetFields()
+    protected override AdoNetConnectionStringFields GetFields()
     {
         if (string.IsNullOrEmpty(ConnectionString))
             return null;

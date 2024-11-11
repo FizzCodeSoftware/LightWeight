@@ -1,6 +1,4 @@
-﻿using FizzCode.LightWeight;
-
-namespace LightWeight.AdoNetTests;
+﻿namespace FizzCode.LightWeight.AdoNetTests;
 
 [TestClass]
 public class MsSqlConnectionStringTests

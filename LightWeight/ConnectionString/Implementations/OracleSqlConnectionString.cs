@@ -1,43 +1,21 @@
-﻿namespace FizzCode.LightWeight;
+﻿namespace FizzCode;
 
-public class OracleSqlConnectionString : IAdoNetSqlConnectionString
+public class OracleSqlConnectionString(string name, string connectionString, string version = null)
+    : BaseAdoNetSqlConnectionString(AdoNetEngine.OracleSql, DefaultProviderName, name, connectionString, version)
 {
-    public required string Name { get; init; }
-    public required string ConnectionString { get; init; }
-    public string Version { get; init; }
-
-    public AdoNetEngine SqlEngine => AdoNetEngine.OracleSql;
     public const string DefaultProviderName = "Oracle.ManagedDataAccess.Client";
-    public string ProviderName => DefaultProviderName;
 
-    public OracleSqlConnectionString()
-    {
-    }
-
-    [SetsRequiredMembers]
-    public OracleSqlConnectionString(string name, string connectionString, string version = null)
-    {
-        Name = name;
-        ConnectionString = connectionString;
-        Version = version;
-    }
-
-    public override string ToString()
-    {
-        return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
-    }
-
-    public string GetObjectIdentifier(string fullIdentifier)
+    public override string GetObjectIdentifier(string fullIdentifier)
     {
         return fullIdentifier;
     }
 
-    public string ChangeObjectIdentifier(string fullIdentifier, string newObjectIdentifier)
+    public override string ChangeObjectIdentifier(string fullIdentifier, string newObjectIdentifier)
     {
         return newObjectIdentifier;
     }
 
-    public string Escape(string dbObject, string schema = null)
+    public override string Escape(string dbObject, string schema = null)
     {
         if (!string.IsNullOrEmpty(schema))
             return EscapeIdentifier(schema) + "." + EscapeIdentifier(dbObject);
@@ -45,25 +23,25 @@ public class OracleSqlConnectionString : IAdoNetSqlConnectionString
         return EscapeIdentifier(dbObject);
     }
 
-    public string EscapeIdentifier(string identifier)
+    public override string EscapeIdentifier(string identifier)
     {
         return identifier.StartsWith('\"') && identifier.EndsWith('\"')
             ? identifier
             : "\"" + identifier + "\"";
     }
 
-    public bool IsEscaped(string identifier)
+    public override bool IsEscaped(string identifier)
     {
         return identifier.StartsWith('\"') && identifier.EndsWith('\"');
     }
 
-    public string Unescape(string identifier)
+    public override string Unescape(string identifier)
     {
         return identifier
             .Replace("\"", "", StringComparison.InvariantCulture);
     }
 
-    public AdoNetConnectionStringFields GetFields()
+    protected override AdoNetConnectionStringFields GetFields()
     {
         if (string.IsNullOrEmpty(ConnectionString))
             return null;

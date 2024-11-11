@@ -1,4 +1,4 @@
-﻿namespace FizzCode.LightWeight;
+﻿namespace FizzCode;
 
 public enum AdoNetEngine
 {

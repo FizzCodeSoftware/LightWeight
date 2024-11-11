@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LightWeight.Configuration\LightWeight.Configuration.csproj" />
-    <ProjectReference Include="..\LightWeight.ConnectionString\LightWeight.ConnectionString.csproj" />
+    <ProjectReference Include="..\LightWeight\LightWeight.csproj" />
   </ItemGroup>
 
 </Project>
