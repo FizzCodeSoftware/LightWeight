@@ -42,7 +42,7 @@ public static class ExceptionExtensions
                         }
 
                         var value = cex.Data[key];
-                        msg += "\n\t\t" + ("[" + k + "]").PadRight(maxKeyLength + 3) + " = " + (value != null ? value.ToString().Trim() : "NULL");
+                        msg += "\n\t\t" + ("[" + k + "]").PadRight(maxKeyLength + 2) + " = " + (value != null ? value.ToString().Trim() : "NULL");
                     }
                 }
 
