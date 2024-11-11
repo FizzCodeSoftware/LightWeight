@@ -48,15 +48,7 @@ public static class ExceptionExtensions
         var firstConstructorFiltered = false;
         var builder = new StringBuilder();
 
-        var maxAssemblyNameLength = frames.Skip(skipStackFrames).Max(frame =>
-        {
-            var method = frame.GetMethod();
-            if (method == null)
-                return 0;
-
-            return (method.DeclaringType?.Assembly?.GetName().Name)?.Length ?? 0;
-        });
-
+        var actualFrames = new List<(StackFrame Frame, MethodBase Method, string AssemblyName)>();
         foreach (var frame in frames.Skip(skipStackFrames))
         {
             var method = frame.GetMethod();
@@ -73,7 +65,7 @@ public static class ExceptionExtensions
                 firstConstructorFiltered = true;
             }
 
-            if (builder.Length > 0)
+            if (actualFrames.Count > 0)
             {
                 if (assemblyName != null)
                 {
@@ -100,21 +92,29 @@ public static class ExceptionExtensions
                 }
             }
 
-            builder.AppendLine(FrameToString(frame, method, assemblyName, maxAssemblyNameLength));
+            actualFrames.Add((frame, method, assemblyName));
         }
+
+        var maxAssemblyNameLength = actualFrames.Max(frame => frame.AssemblyName.Length);
+        foreach (var (frame, method, assemblyName) in actualFrames)
+            builder.AppendLine(FrameToString(frame, method, assemblyName, maxAssemblyNameLength));
 
         return builder.ToString().Trim();
     }
 
     private static string FrameToString(StackFrame frame, MethodBase method, string assemblyName, int maxAssemblyNameLength)
     {
-        var sb = new StringBuilder(200);
+        var sb = new StringBuilder();
 
         var ignoreMethod = false;
 
         if (assemblyName != null)
         {
             sb.Append("in ").Append(assemblyName.PadRight(maxAssemblyNameLength + 1)).Append(": ");
+        }
+        else
+        {
+            sb.Append("   ").Append("".PadRight(maxAssemblyNameLength + 1)).Append("  ");
         }
 
         if (!method.Name.StartsWith('<') && method.DeclaringType != null)
