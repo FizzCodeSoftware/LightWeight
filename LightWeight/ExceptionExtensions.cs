@@ -2,7 +2,7 @@
 
 public static class ExceptionExtensions
 {
-    public static string Format(this Exception exception, bool includeTrace = true)
+    public static string Format(this Exception exception, bool includeTrace = true, int skipStackFrames = 0)
     {
         try
         {
@@ -20,7 +20,7 @@ public static class ExceptionExtensions
                 if (includeTrace)
                 {
                     if (cex.Data?["Trace"] is not string trace)
-                        trace = GetTraceFromStackFrames(new StackTrace(cex, true).GetFrames());
+                        trace = GetTraceFromStackFrames(new StackTrace(cex, true).GetFrames().Skip(1 + skipStackFrames).ToArray());
 
                     if (trace != null)
                     {
