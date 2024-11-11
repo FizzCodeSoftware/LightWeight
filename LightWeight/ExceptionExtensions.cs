@@ -2,7 +2,7 @@
 
 public static class ExceptionExtensions
 {
-    public static string FormatException(this Exception exception, bool includeTrace = true)
+    public static string Format(this Exception exception, bool includeTrace = true)
     {
         try
         {
