@@ -42,7 +42,7 @@ public static class TypeExtensions
         return (includeNameSpace ? type.Namespace + "." : null) + type.Name.Replace('+', '.');
     }
 
-    public static string FixGeneratedName(string name)
+    public static string FixGeneratedName(string name, bool includeExtraInfo)
     {
         if (name.StartsWith('<'))
         {
@@ -51,12 +51,12 @@ public static class TypeExtensions
             {
                 var fixedName = name[1..endIndex];
                 return fixedName
-                    + (name[endIndex + 1] switch
+                    + (includeExtraInfo ? (name[endIndex + 1] switch
                     {
                         'b' => "+AnonymousMethod",
                         'd' => "+Iterator",
                         _ => null,
-                    });
+                    }) : "");
             }
         }
 

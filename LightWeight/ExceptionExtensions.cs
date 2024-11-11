@@ -127,7 +127,7 @@ public static class ExceptionExtensions
                     switch (method.DeclaringType.Name[endIndex + 1])
                     {
                         case 'd':
-                            sb.Append(TypeExtensions.FixGeneratedName(method.DeclaringType.DeclaringType.Name))
+                            sb.Append(TypeExtensions.FixGeneratedName(method.DeclaringType.DeclaringType.Name, false))
                                 .Append('.');
                             ignoreMethod = true;
                             break;
@@ -135,14 +135,14 @@ public static class ExceptionExtensions
                 }
             }
 
-            sb.Append(TypeExtensions.FixGeneratedName(method.DeclaringType.Name));
+            sb.Append(TypeExtensions.FixGeneratedName(method.DeclaringType.Name, false));
             if (!ignoreMethod)
                 sb.Append('.');
         }
 
         if (!ignoreMethod)
         {
-            sb.Append(TypeExtensions.FixGeneratedName(method.Name));
+            sb.Append(TypeExtensions.FixGeneratedName(method.Name, false));
 
             if (method is MethodInfo mi && mi.IsGenericMethod)
             {
