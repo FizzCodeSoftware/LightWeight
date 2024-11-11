@@ -45,8 +45,7 @@ public static class ExceptionExtensions
         if (frames == null || frames.Length == 0)
             return null;
 
-        var ctorsFiltered = false;
-        var currentFrameAdded = false;
+        var firstConstructorFiltered = false;
         var builder = new StringBuilder();
 
         var maxAssemblyNameLength = frames.Skip(skipStackFrames).Max(frame =>
@@ -66,39 +65,38 @@ public static class ExceptionExtensions
 
             var assemblyName = method.DeclaringType?.Assembly?.GetName().Name;
 
-            if (!ctorsFiltered)
+            if (!firstConstructorFiltered)
             {
                 if (frame.GetMethod().IsConstructor || frame.GetMethod().IsStatic)
                     continue;
 
-                ctorsFiltered = true;
+                firstConstructorFiltered = true;
             }
 
-            if (!currentFrameAdded)
+            if (builder.Length > 0)
             {
-                builder.AppendLine(FrameToString(frame, method, assemblyName, maxAssemblyNameLength));
-                currentFrameAdded = true;
-                continue;
-            }
-
-            if (assemblyName != null)
-            {
-                if (assemblyName.StartsWith("FizzCode.EtLast.CommandService", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                try
+                if (assemblyName != null)
                 {
-                    var fileName = frame.GetFileName();
-                    if (string.IsNullOrEmpty(fileName))
+                    if (assemblyName.StartsWith("Microsoft.", StringComparison.OrdinalIgnoreCase))
                         continue;
-                }
-                catch (NotSupportedException)
-                {
-                    continue;
-                }
-                catch (SecurityException)
-                {
-                    continue;
+
+                    if (assemblyName.StartsWith("FizzCode.EtLast.CommandService", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    try
+                    {
+                        var fileName = frame.GetFileName();
+                        if (string.IsNullOrEmpty(fileName))
+                            continue;
+                    }
+                    catch (NotSupportedException)
+                    {
+                        continue;
+                    }
+                    catch (SecurityException)
+                    {
+                        continue;
+                    }
                 }
             }
 
