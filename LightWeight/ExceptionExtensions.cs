@@ -17,6 +17,35 @@ public static class ExceptionExtensions
 
                 msg += cex.GetType().GetFriendlyTypeName() + ": " + cex.Message;
 
+                if (cex.Data?.Count > 0)
+                {
+                    var first = true;
+                    var maxKeyLength = 0;
+                    foreach (var key in cex.Data.Keys)
+                    {
+                        var l = key.ToString().Length;
+                        if (l > maxKeyLength)
+                            maxKeyLength = l;
+                    }
+
+                    foreach (var key in cex.Data.Keys)
+                    {
+                        var k = key.ToString();
+                        if (first)
+                        {
+                            msg += "\n\tDATA:";
+                            first = false;
+                        }
+                        else
+                        {
+                            msg += ", ";
+                        }
+
+                        var value = cex.Data[key];
+                        msg += "\n\t\t" + ("[" + k + "]").PadRight(maxKeyLength + 3) + " = " + (value != null ? value.ToString().Trim() : "NULL");
+                    }
+                }
+
                 if (includeTrace)
                 {
                     if (cex.Data?["Trace"] is not string trace)
@@ -127,7 +156,7 @@ public static class ExceptionExtensions
                     switch (method.DeclaringType.Name[endIndex + 1])
                     {
                         case 'd':
-                            sb.Append(TypeExtensions.FixGeneratedName(method.DeclaringType.DeclaringType.Name, false))
+                            sb.Append(TypeExtensions.FixGeneratedName(method.DeclaringType.DeclaringType.Name))
                                 .Append('.');
                             ignoreMethod = true;
                             break;
@@ -135,14 +164,14 @@ public static class ExceptionExtensions
                 }
             }
 
-            sb.Append(TypeExtensions.FixGeneratedName(method.DeclaringType.Name, false));
+            sb.Append(TypeExtensions.FixGeneratedName(method.DeclaringType.Name));
             if (!ignoreMethod)
                 sb.Append('.');
         }
 
         if (!ignoreMethod)
         {
-            sb.Append(TypeExtensions.FixGeneratedName(method.Name, false));
+            sb.Append(TypeExtensions.FixGeneratedName(method.Name));
 
             if (method is MethodInfo mi && mi.IsGenericMethod)
             {
