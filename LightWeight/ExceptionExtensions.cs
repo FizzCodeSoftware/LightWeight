@@ -20,7 +20,7 @@ public static class ExceptionExtensions
                 if (includeTrace)
                 {
                     if (cex.Data?["Trace"] is not string trace)
-                        trace = GetTraceFromStackFrames(new StackTrace(cex, true).GetFrames().Skip(1 + skipStackFrames).ToArray());
+                        trace = GetTraceFromStackFrames(new StackTrace(cex, true).GetFrames(), 1 + skipStackFrames);
 
                     if (trace != null)
                     {
@@ -40,7 +40,7 @@ public static class ExceptionExtensions
         }
     }
 
-    public static string GetTraceFromStackFrames(StackFrame[] frames)
+    public static string GetTraceFromStackFrames(StackFrame[] frames, int skipStackFrames = 0)
     {
         if (frames == null || frames.Length == 0)
             return null;
@@ -49,7 +49,7 @@ public static class ExceptionExtensions
         var currentFrameAdded = false;
         var builder = new StringBuilder();
 
-        var maxAssemblyNameLength = frames.Max(frame =>
+        var maxAssemblyNameLength = frames.Skip(skipStackFrames).Max(frame =>
         {
             var method = frame.GetMethod();
             if (method == null)
@@ -58,7 +58,7 @@ public static class ExceptionExtensions
             return (method.DeclaringType?.Assembly?.GetName().Name)?.Length ?? 0;
         });
 
-        foreach (var frame in frames)
+        foreach (var frame in frames.Skip(skipStackFrames))
         {
             var method = frame.GetMethod();
             if (method == null)
