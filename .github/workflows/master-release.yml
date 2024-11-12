@@ -23,7 +23,7 @@ jobs:
         dotnet-version: 8
         source-url: https://pkgs.dev.azure.com/fizzcode/ArtifactFeed/_packaging/FizzSuiteFeed/nuget/v3/index.json
       env:
-        NUGET_AUTH_TOKEN: ${{ secrets.AZURE_DEVOPS_APIKEY } 
+        NUGET_AUTH_TOKEN: ${{ secrets.AZURE_DEVOPS_APIKEY }}
     
     - name: Restore
       run: dotnet restore /p:Configuration=${{ env.Configuration }} --verbosity normal
