@@ -21,13 +21,11 @@ public abstract class BaseAdoNetSqlConnectionString : IAdoNetSqlConnectionString
 
     public override string ToString()
     {
-        return Fields?.Database != null
-            ? Fields?.Server != null
-                ? Fields?.Port != null
-                    ? string.Format(CultureInfo.InvariantCulture, "{0} ({1}:{2}, {3}), {4}", Name, Fields.Server, Fields.Port, Fields.Database, ProviderName)
-                    : string.Format(CultureInfo.InvariantCulture, "{0} ({1}, {2}), {3}", Name, Fields.Server, Fields.Database, ProviderName)
-                : string.Format(CultureInfo.InvariantCulture, "{0} ({1}), {2}", Name, Fields.Database, ProviderName)
-            : string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Name, ProviderName);
+        return Fields?.Server != null
+            ? Fields?.Port != null
+                ? string.Format(CultureInfo.InvariantCulture, "{0}:{1} ({2}:{3}), {4}", Name, Fields.Database ?? "???", Fields.Server, Fields.Port, SqlEngine.ToString())
+                : string.Format(CultureInfo.InvariantCulture, "{0}:{1} ({2}), {3}", Name, Fields.Database ?? "???", Fields.Server, SqlEngine.ToString())
+            : string.Format(CultureInfo.InvariantCulture, "{0}:{1}, {2}", Name, Fields.Database ?? "???", SqlEngine.ToString());
     }
 
     protected abstract AdoNetConnectionStringFields GetFields();
