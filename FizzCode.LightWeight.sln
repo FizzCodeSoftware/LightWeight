@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightWeight", "LightWeight\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F380CEEB-7170-4D6D-BC01-3E9DE97C7B4F}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\master-release.yml = .github\workflows\master-release.yml
 	EndProjectSection
@@ -61,7 +61,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E9822D42-4E1E-4656-8AF6-FB2B1777695D} = {1F80E5F6-4CD6-4742-B944-802BCBBD200B}
-		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F380CEEB-7170-4D6D-BC01-3E9DE97C7B4F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B1A4546-5839-4F14-8E4D-8404CA122935}
