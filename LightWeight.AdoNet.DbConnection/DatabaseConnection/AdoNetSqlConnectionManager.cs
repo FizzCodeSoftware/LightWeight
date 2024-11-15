@@ -112,12 +112,7 @@ public class AdoNetSqlConnectionManager
                 }
                 catch (Exception ex)
                 {
-                    if (exceptions == null)
-                    {
-                        exceptions = [];
-                    }
-
-                    exceptions.Add(ex);
+                    (exceptions ??= []).Add(ex);
                 }
             } // lock released
 
